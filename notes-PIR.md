@@ -16,6 +16,11 @@ Next:
     - Add NA slider?
     - Add wavelength selector (365, 385, 405 nm).
 
+PIR for [Asiga Max X27, 27 um pixel pitch](https://www.asiga.com/max-x/) ([Asiga Ultra](https://www.asiga.com/ultra/) is 32 um pixel pitch):
+
+- DMD: [DLP651NE 0.65-Inch 1080p Digital Micromirror Device](https://www.ti.com/lit/ds/symlink/dlp651ne.pdf)
+- [ChatGPT Irradiance Distribution Analysis](https://chatgpt.com/share/691e574e-ed30-800e-9d1d-997b1b67ae19)
+
 
 
 Develop PIR for HR3.3u
