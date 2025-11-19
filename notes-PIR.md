@@ -9,6 +9,12 @@ Next:
 - Save 2D result to a file.
 - Use 2D single pixel result to show what multiple pixels look like.
 - Do line plot of multiple pixels and superimpose appropriate shifted single pixels.
+- Show line plot of point spread function and pixel rect function and convolution of them (dashed rect on top of convolved result).
+- Show animation of convolution of PSF and rect function (in 2D?)?
+- Put in marimo notebook.
+    - Add fill factor slider.
+    - Add NA slider?
+    - Add wavelength selector (365, 385, 405 nm).
 
 
 
