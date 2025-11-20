@@ -24,7 +24,8 @@ Next:
 
 - Generalize code to handle user-defined values for wavelength, NA, image pixel pitch, micromirror array pixel pitch, and pixel fill factor.
 - Create function to analyze numerical aperture and print relevant values.
-- Put code into a class in 
+- Put code into a class in `src/pir_optics/pixel_irradiance.py`.
+- Add marimo notebook example in `notebooks`.
 
 
 

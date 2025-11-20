@@ -1,12 +1,3 @@
-# /// script
-# requires-python = ">=3.14"
-# dependencies = [
-#     "matplotlib",
-#     "numpy",
-#     "scipy",
-# ]
-# ///
-
 import os
 import numpy as np
 from scipy.fft import fft2, ifft2, fftshift, ifftshift
