@@ -16,6 +16,17 @@ Next:
     - Add NA slider?
     - Add wavelength selector (365, 385, 405 nm).
 
+
+
+# Log
+
+## Thu, 11/20/25
+
+- Generalize code to handle user-defined values for wavelength, NA, image pixel pitch, micromirror array pixel pitch, and pixel fill factor.
+- Create function to analyze numerical aperture and print relevant values.
+
+
+
 PIR for [Asiga Max X27, 27 um pixel pitch](https://www.asiga.com/max-x/) ([Asiga Ultra](https://www.asiga.com/ultra/) is 32 um pixel pitch):
 
 - DMD: [DLP651NE 0.65-Inch 1080p Digital Micromirror Device](https://www.ti.com/lit/ds/symlink/dlp651ne.pdf)

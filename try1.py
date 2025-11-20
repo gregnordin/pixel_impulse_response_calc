@@ -107,6 +107,9 @@ k0 = 2 * np.pi / wavelength    # physical wavenumber [1/µm]
 alpha = k0 * NA_image          # scaling for Airy argument: alpha * r
 
 # --- Airy PSF (intensity) ---
+# For z = alpha*r: z = 0 only at the image center.
+# The Airy formula (2*J1(z)/z)^2 is 0/0 at z=0, but its limit as z→0 is exactly 1.
+# We therefore assign psf = 1.0 at that point to avoid division-by-zero.
 z = alpha * R
 psf = np.ones_like(R)
 mask = z != 0
