@@ -31,6 +31,14 @@ Next:
 
 - Play with xy range for different pixel sizes. Settle on 2 ranges: 0.1 &mu;m sampling for pixel sizes <= 40 &mu;m and 0.2 &mu;m sampling for larger pixel sizes.
 
+#### Superposition to get 5x5 pixel array
+
+`examples/demo_pixel_array_superposition.py`
+
+**Problems:**
+
+- Change PSF to 0.05 and see all of the artifacts. **These need fixed**
+
 
 
 PIR for [Asiga Max X27, 27 um pixel pitch](https://www.asiga.com/max-x/) ([Asiga Ultra](https://www.asiga.com/ultra/) is 32 um pixel pitch):
