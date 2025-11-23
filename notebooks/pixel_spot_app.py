@@ -17,7 +17,7 @@ def _(mo):
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
-    img_pixel_pitch = mo.ui.number(start=1.0, stop=100.0, step=0.5, value=27.0)
+    img_pixel_pitch = mo.ui.number(start=5.0, stop=100.0, step=0.5, value=27.0)
     pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.80)
 
     controls = mo.vstack(
@@ -44,14 +44,20 @@ def _(
     plt,
     wavelength,
 ):
+    # choose grid based on current pixel pitch
+    nx = 512
+    fov_factor = 3.0                             # how many pixel pitches across the FOV
+    FOV = fov_factor * img_pixel_pitch.value     # [µm]
+    dx = FOV / nx                                # sampling [µm]
+
     model = PixelIrradianceModel(
         wavelength=wavelength.value,
         NA_image=NA.value,
         mirror_pitch=mirror_pitch.value,
         img_pixel_pitch=img_pixel_pitch.value,
         pixel_fill=pixel_fill.value,
-        nx=512,
-        dx=0.1,
+        nx=nx,
+        dx=dx,
         auto_compute=True,
         use_cache=False,
     )
@@ -79,7 +85,7 @@ def _(
     ax1d.axvline(-half_pitch, color="r", linestyle="--")
     ax1d.axvline(+half_pitch, color="r", linestyle="--")
 
-    # layout: controls on left, raw figs on right
+    # layout: controls on left, figs on right
     layout = mo.hstack(
         [
             mo.vstack([mo.md("### Parameters"), controls]),
@@ -94,7 +100,12 @@ def _(
         ]
     )
 
-    layout  # rendered output
+    layout
+    return
+
+
+@app.cell
+def _():
     return
 
 
