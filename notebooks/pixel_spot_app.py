@@ -44,17 +44,30 @@ def _(
     plt,
     wavelength,
 ):
-    # choose grid based on current pixel pitch
-    nx = 512
-    fov_factor = 3.0                             # how many pixel pitches across the FOV
-    FOV = fov_factor * img_pixel_pitch.value     # [µm]
-    dx = FOV / nx                                # sampling [µm]
+    # base sampling and FOV
+    dx_base = 0.1         # [µm], fixed sampling period
+    nx_base = 512
+    base_FOV = nx_base * dx_base  # 51.2 µm
+
+    pitch = img_pixel_pitch.value
+
+    if pitch <= 50.0:
+        dx = dx_base
+        nx = nx_base
+    else:
+        # enlarge FOV for big pixels, keeping dx fixed
+        fov_factor = 1.5
+        required_FOV = fov_factor * pitch          # want FOV = f * pixel_pitch
+        nx = int(required_FOV / dx_base)
+        if nx < nx_base:
+            nx = nx_base
+        dx = dx_base
 
     model = PixelIrradianceModel(
         wavelength=wavelength.value,
         NA_image=NA.value,
         mirror_pitch=mirror_pitch.value,
-        img_pixel_pitch=img_pixel_pitch.value,
+        img_pixel_pitch=pitch,
         pixel_fill=pixel_fill.value,
         nx=nx,
         dx=dx,
@@ -81,11 +94,12 @@ def _(
     ax1d.set_xlabel("x (µm)")
     ax1d.set_ylabel("Normalized irradiance")
     ax1d.set_title("Center-line cross-section")
+    ax1d.set_ylim(-0.05, 1.05)
+
     half_pitch = model.img_pixel_pitch / 2.0
     ax1d.axvline(-half_pitch, color="r", linestyle="--")
     ax1d.axvline(+half_pitch, color="r", linestyle="--")
 
-    # layout: controls on left, figs on right
     layout = mo.hstack(
         [
             mo.vstack([mo.md("### Parameters"), controls]),

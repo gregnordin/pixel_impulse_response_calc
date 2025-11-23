@@ -27,6 +27,10 @@ Next:
 - Put code into a class in `src/pir_optics/pixel_irradiance.py`.
 - Add marimo notebook example in `notebooks`.
 
+## Fri, 11/22/25
+
+- Play with xy range for different pixel sizes.
+
 
 
 PIR for [Asiga Max X27, 27 um pixel pitch](https://www.asiga.com/max-x/) ([Asiga Ultra](https://www.asiga.com/ultra/) is 32 um pixel pitch):
