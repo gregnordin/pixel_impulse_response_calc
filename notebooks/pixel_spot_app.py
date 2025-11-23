@@ -1,25 +1,24 @@
-import marimo as mo
+import marimo
 
-app = mo.App()
+__generated_with = "0.18.0"
+app = marimo.App()
 
 
-# --- Cell 0: imports and class ---
 @app.cell
-def __():
+def _():
     import marimo as mo
     import matplotlib.pyplot as plt
     from pir_optics import PixelIrradianceModel
-    return mo, plt, PixelIrradianceModel
+    return PixelIrradianceModel, mo, plt
 
 
-# --- Cell 1: UI controls (only start/stop/step/value) ---
 @app.cell
-def __(mo):
+def _(mo):
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
-    img_pixel_pitch = mo.ui.number(start=5.0, stop=100.0, step=0.5, value=27.0)
-    pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.05, value=0.80)
+    img_pixel_pitch = mo.ui.number(start=1.0, stop=100.0, step=0.5, value=27.0)
+    pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.80)
 
     controls = mo.vstack(
         [
@@ -30,22 +29,20 @@ def __(mo):
             mo.hstack([mo.md("**Pixel fill factor**"), pixel_fill]),
         ]
     )
+    return NA, controls, img_pixel_pitch, mirror_pitch, pixel_fill, wavelength
 
-    return wavelength, NA, mirror_pitch, img_pixel_pitch, pixel_fill, controls
 
-
-# --- Cell 2: model + plots + layout ---
 @app.cell
-def __(
-    mo,
-    plt,
-    PixelIrradianceModel,
-    wavelength,
+def _(
     NA,
-    mirror_pitch,
-    img_pixel_pitch,
-    pixel_fill,
+    PixelIrradianceModel,
     controls,
+    img_pixel_pitch,
+    mirror_pitch,
+    mo,
+    pixel_fill,
+    plt,
+    wavelength,
 ):
     model = PixelIrradianceModel(
         wavelength=wavelength.value,
@@ -98,4 +95,8 @@ def __(
     )
 
     layout  # rendered output
-    return layout
+    return
+
+
+if __name__ == "__main__":
+    app.run()
