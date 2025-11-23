@@ -1,19 +1,20 @@
-import marimo
+import marimo as mo
 
-__generated_with = "0.18.0"
-app = marimo.App()
+app = mo.App()
 
 
+# --- Cell 0: imports and class ---
 @app.cell
-def _():
+def __():
     import marimo as mo
     import matplotlib.pyplot as plt
     from pir_optics import PixelIrradianceModel
-    return PixelIrradianceModel, mo, plt
+    return mo, plt, PixelIrradianceModel
 
 
+# --- Cell 1: UI controls ---
 @app.cell
-def _(mo):
+def __(mo):
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
@@ -29,39 +30,34 @@ def _(mo):
             mo.hstack([mo.md("**Pixel fill factor**"), pixel_fill]),
         ]
     )
-    return NA, controls, img_pixel_pitch, mirror_pitch, pixel_fill, wavelength
+
+    return wavelength, NA, mirror_pitch, img_pixel_pitch, pixel_fill, controls
 
 
+# --- Cell 2: model + plots + layout ---
 @app.cell
-def _(
-    NA,
-    PixelIrradianceModel,
-    controls,
-    img_pixel_pitch,
-    mirror_pitch,
+def __(
     mo,
-    pixel_fill,
     plt,
+    PixelIrradianceModel,
     wavelength,
+    NA,
+    mirror_pitch,
+    img_pixel_pitch,
+    pixel_fill,
+    controls,
 ):
-    # base sampling and FOV
-    dx_base = 0.1         # [µm], fixed sampling period
-    nx_base = 512
-    base_FOV = nx_base * dx_base  # 51.2 µm
-
+    # two fixed regimes:
+    # - pitch ≤ 40 µm: dx = 0.1 µm, nx = 512 → FOV ≈ 51.2 µm
+    # - pitch > 40 µm: dx = 0.2 µm, nx = 512 → FOV ≈ 102.4 µm
     pitch = img_pixel_pitch.value
 
-    if pitch <= 50.0:
-        dx = dx_base
-        nx = nx_base
+    if pitch <= 40.0:
+        dx = 0.1
+        nx = 512
     else:
-        # enlarge FOV for big pixels, keeping dx fixed
-        fov_factor = 1.5
-        required_FOV = fov_factor * pitch          # want FOV = f * pixel_pitch
-        nx = int(required_FOV / dx_base)
-        if nx < nx_base:
-            nx = nx_base
-        dx = dx_base
+        dx = 0.2
+        nx = 512
 
     model = PixelIrradianceModel(
         wavelength=wavelength.value,
@@ -94,12 +90,13 @@ def _(
     ax1d.set_xlabel("x (µm)")
     ax1d.set_ylabel("Normalized irradiance")
     ax1d.set_title("Center-line cross-section")
-    ax1d.set_ylim(-0.05, 1.05)
+    ax1d.set_ylim(-0.05, 1.05)   # always see full [0,1] with a bit of margin
 
     half_pitch = model.img_pixel_pitch / 2.0
     ax1d.axvline(-half_pitch, color="r", linestyle="--")
     ax1d.axvline(+half_pitch, color="r", linestyle="--")
 
+    # layout: controls on left, figs on right
     layout = mo.hstack(
         [
             mo.vstack([mo.md("### Parameters"), controls]),
@@ -115,13 +112,4 @@ def _(
     )
 
     layout
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-if __name__ == "__main__":
-    app.run()
+    return layout

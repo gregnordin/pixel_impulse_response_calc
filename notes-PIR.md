@@ -29,7 +29,7 @@ Next:
 
 ## Fri, 11/22/25
 
-- Play with xy range for different pixel sizes.
+- Play with xy range for different pixel sizes. Settle on 2 ranges: 0.1 &mu;m sampling for pixel sizes <= 40 &mu;m and 0.2 &mu;m sampling for larger pixel sizes.
 
 
 
