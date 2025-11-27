@@ -20,6 +20,27 @@ Next:
 
 # Log
 
+## Thu, 11/27/25
+
+### Reconstitute ChatGPT chat
+
+The chat thread I was using finally choked as it got too big (). Learn how to reconsititute it--see [Upload project as ZIP](https://chatgpt.com/share/692887d6-3d98-800e-9dcf-33754179e013)--which involves creating a **theory summary message** and a **code summary message**.
+
+Create zip file with project directory structure:
+
+```bash
+rm PIR.zip
+zip -r PIR.zip PIR \
+  -x "*/.git/*" \
+  -x "*/.venv/*" \
+  -x "*/__pycache__/*" \
+  -x "*.pyc" \
+  -x "try1.py" \
+  -x "*.DS_Store"
+```
+
+
+
 ## Wed, 11/26/25
 
 ### `PixelIrradianceModel`
