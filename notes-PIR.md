@@ -29,6 +29,7 @@ The chat thread I was using finally choked as it got too big (). Learn how to re
 Create zip file with project directory structure:
 
 ```bash
+cd ..
 rm PIR.zip
 zip -r PIR.zip PIR \
   -x "*/.git/*" \
@@ -36,14 +37,16 @@ zip -r PIR.zip PIR \
   -x "*/__pycache__/*" \
   -x "*.pyc" \
   -x "try1.py" \
+  -x "notes-PIR.md" \
   -x "*.DS_Store"
+cd PIR
 ```
 
 #### Theory summary message
 
 See `PIR_theory_summary.md`.
 
-How to use this in future chats
+How to use this in future chats (**NOTE: I need to explicitly ignore this notes file! &rarr;** do not include it in the ZIP file.)
 
 - This entire block is your **theory summary message**.
 - In a new chat, you can paste this first so I have the physics/model context.
