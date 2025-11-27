@@ -24,7 +24,7 @@ Next:
 
 ### Reconstitute ChatGPT chat
 
-The chat thread I was using finally choked as it got too big (). Learn how to reconsititute it--see [Upload project as ZIP](https://chatgpt.com/share/692887d6-3d98-800e-9dcf-33754179e013)--which involves creating a **theory summary message** and a **code summary message**.
+The chat thread I was using finally choked as it got too big (). Learn how to reconsititute it--see [Upload project as ZIP](https://chatgpt.com/share/692887d6-3d98-800e-9dcf-33754179e013)--which involves creating a **theory summary message** and a ~~**code summary message**~~ `PIR.zip` file.
 
 Create zip file with project directory structure:
 
@@ -39,7 +39,19 @@ zip -r PIR.zip PIR \
   -x "*.DS_Store"
 ```
 
+#### Theory summary message
 
+See `PIR_theory_summary.md`.
+
+How to use this in future chats
+
+- This entire block is your **theory summary message**.
+- In a new chat, you can paste this first so I have the physics/model context.
+- Then you can either:
+    - Re-upload the **same ZIP** as your “code context” for the current state, or
+    - Paste specific code snippets you want to modify.
+
+You don’t *have* to maintain a separate “code summary” text file if managing the actual project ZIP is easier. The ZIP effectively *is* your code snapshot; a short textual “code structure” summary can help you, but it’s optional from my side as long as you can upload the project when needed.
 
 ## Wed, 11/26/25
 
