@@ -26,7 +26,7 @@ Next:
 
 - Change `_make_filename` to include all independent parameters so `.npz` filename is unique to a specific case.
 
-- Change `examples/demo_pixel_spot.py` so it calculates and prints the elapsed time to run `PixelIrradianceModel`.
+- Change `examples/demo_pixel_spot.py` so it calculates and prints the elapsed time to run `PixelIrradianceModel`. For the results below, the runs after the first one take less time because `use_cache=True` so `compute` is just loading an `.npz` file.
 
     - Results: `nx=512, dx=0.1`: **4.24 ms, 2.11 ms, 2.30 ms**
     - Results: `nx=800, dx=0.1`: **28.70 ms, 3.91 ms, 4.16 ms**
@@ -40,8 +40,6 @@ Next:
 - Find a problem with how I was running the marimo notebook with `uv` where it was stuck on an old version of my project. This is how it should be run now after fixing `pyproject.toml`:
 
     `uv run marimo edit notebooks/pixel_spot_app.py`
-
-- 
 
 ## Fri, 11/22/25
 

@@ -16,7 +16,7 @@ class PixelIrradianceModel:
                  nx=512,
                  dx=0.1,
                  auto_compute=True,
-                 use_cache=True):
+                 use_cache=False):
         # physical parameters (all in microns except NA)
         self.wavelength = float(wavelength)
         self.NA_image = float(NA_image)
@@ -45,27 +45,33 @@ class PixelIrradianceModel:
         self.I = None
         self._interp = None  # RegularGridInterpolator, built lazily
 
-        # filename based on parameters
-        self.filename = self._make_filename()
-
         if auto_compute:
             self.compute(use_cache=use_cache)
 
     # ---------- public API ----------
 
-    def compute(self, use_cache=True):
-        """Compute (or load) PSF-convolved single-pixel irradiance."""
-        if use_cache and os.path.exists(self.filename):
-            self._load_npz(self.filename)
-            self._analyze_pixel_sampling()
-            return
+    def compute(self, use_cache=False):
+        """
+        Compute PSF and pixel-irradiance model.
+        If cache=True, save/load .npz file for reuse.
+        If cache=False, do not write any files.
+        """
+        if use_cache:
+            fname = self._make_filename()
+            if fname and os.path.exists(fname):
+                self._load_npz(fname)
+                return
 
+        # --- perform the actual computation ---
         self._build_grid()
         self._compute_psf()
         self._compute_pixel_object()
         self._convolve()
         self._analyze_pixel_sampling()
-        self._save_npz(self.filename)
+
+        if use_cache:
+            fname = self._make_filename()
+            self._save_npz(fname)
 
     def plot_irradiance_2d(self):
         if self.I is None:

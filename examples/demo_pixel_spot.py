@@ -15,7 +15,7 @@ def main():
         nx=512,
         dx=0.1,
         auto_compute=True,
-        use_cache=True,
+        use_cache=False,
     )
     end_time = time.perf_counter()
     print(f"Elapsed time: {(end_time - start_time)*1000:.2f} ms")
