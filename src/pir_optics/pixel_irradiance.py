@@ -202,17 +202,37 @@ class PixelIrradianceModel:
         print("could fall into the pupil, depending on your off-axis design.")
         print()
 
+    # def _make_filename(self):
+    #     def fmt(v):
+    #         return str(v).replace('.', 'p')
+    #     return (
+    #         "irr_"
+    #         f"lam{fmt(self.wavelength)}_"
+    #         f"NA{fmt(self.NA_image)}_"
+    #         f"mirpitch{fmt(self.mirror_pitch)}_"
+    #         f"imgpitch{fmt(self.img_pixel_pitch)}_"
+    #         f"fill{fmt(self.pixel_fill)}.npz"
+    #   )
+        
     def _make_filename(self):
+        """
+        Construct a unique ASCII filename encoding all independent variables
+        that define the PSF and pixel-irradiance model.
+        """
         def fmt(v):
             return str(v).replace('.', 'p')
-        return (
-            "irr_"
-            f"lam{fmt(self.wavelength)}_"
-            f"NA{fmt(self.NA_image)}_"
-            f"mirpitch{fmt(self.mirror_pitch)}_"
-            f"imgpitch{fmt(self.img_pixel_pitch)}_"
-            f"fill{fmt(self.pixel_fill)}.npz"
+        # Force stable, filesystem-safe ASCII formatting
+        fname = (
+            f"irr_"
+            f"w{self.wavelength:.3f}_"
+            f"NA{self.NA_image:.3f}_"
+            f"mp{self.mirror_pitch:.2f}_"
+            f"ipp{self.img_pixel_pitch:.2f}_"
+            f"pf{self.pixel_fill:.3f}_"
+            f"nx{self.nx}_"
+            f"dx{self.dx:.3f}.npz"
         )
+        return fname
 
     def _save_npz(self, fname):
         np.savez(

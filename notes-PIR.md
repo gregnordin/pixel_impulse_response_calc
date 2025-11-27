@@ -20,12 +20,11 @@ Next:
 
 # Log
 
-## Thu, 11/20/25
+## Wed, 11/26/25
 
-- Generalize code to handle user-defined values for wavelength, NA, image pixel pitch, micromirror array pixel pitch, and pixel fill factor.
-- Create function to analyze numerical aperture and print relevant values.
-- Put code into a class in `src/pir_optics/pixel_irradiance.py`.
-- Add marimo notebook example in `notebooks`.
+### `PixelIrradianceModel`
+
+- Change `_make_filename` to include all independent parameters so it is unique to a specific case.
 
 ## Fri, 11/22/25
 
@@ -38,6 +37,15 @@ Next:
 **Problems:**
 
 - Change PSF to 0.05 and see all of the artifacts. **These need fixed**
+
+
+
+## Thu, 11/20/25
+
+- Generalize code to handle user-defined values for wavelength, NA, image pixel pitch, micromirror array pixel pitch, and pixel fill factor.
+- Create function to analyze numerical aperture and print relevant values.
+- Put code into a class in `src/pir_optics/pixel_irradiance.py`.
+- Add marimo notebook example in `notebooks`.
 
 
 
