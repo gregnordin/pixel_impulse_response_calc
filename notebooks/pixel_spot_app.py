@@ -1,24 +1,29 @@
-import marimo
+import marimo as mo
 
-__generated_with = "0.18.0"
-app = marimo.App()
+app = mo.App()
 
 
+# --- Cell 0: imports and class ---
 @app.cell
-def _():
+def __():
     import marimo as mo
     import matplotlib.pyplot as plt
     from pir_optics import PixelIrradianceModel
-    return PixelIrradianceModel, mo, plt
+    return mo, plt, PixelIrradianceModel
 
 
+# --- Cell 1: UI controls ---
 @app.cell
-def _(mo):
+def __(mo):
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
     img_pixel_pitch = mo.ui.number(start=5.0, stop=100.0, step=0.1, value=27.0)
     pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.80)
+
+    # new: grid controls
+    nx_ctrl = mo.ui.number(start=128, stop=4096, step=1, value=512)
+    dx_ctrl = mo.ui.number(start=0.05, stop=1.0, step=0.01, value=0.10)
 
     controls = mo.vstack(
         [
@@ -27,32 +32,46 @@ def _(mo):
             mo.hstack([mo.md("**Mirror pitch (µm)**"), mirror_pitch]),
             mo.hstack([mo.md("**Image pixel pitch (µm)**"), img_pixel_pitch]),
             mo.hstack([mo.md("**Pixel fill factor**"), pixel_fill]),
+            mo.md("**Grid settings**"),
+            mo.hstack([mo.md("nx (samples per axis)"), nx_ctrl]),
+            mo.hstack([mo.md("dx (µm per sample)**"), dx_ctrl]),
         ]
     )
-    return NA, controls, img_pixel_pitch, mirror_pitch, pixel_fill, wavelength
+
+    return (
+        wavelength,
+        NA,
+        mirror_pitch,
+        img_pixel_pitch,
+        pixel_fill,
+        nx_ctrl,
+        dx_ctrl,
+        controls,
+    )
 
 
+# --- Cell 2: model + plots + layout ---
 @app.cell
-def _(
-    NA,
-    PixelIrradianceModel,
-    controls,
-    img_pixel_pitch,
-    mirror_pitch,
+def __(
     mo,
-    pixel_fill,
     plt,
+    PixelIrradianceModel,
     wavelength,
+    NA,
+    mirror_pitch,
+    img_pixel_pitch,
+    pixel_fill,
+    nx_ctrl,
+    dx_ctrl,
+    controls,
 ):
-    # two fixed regimes:
-    pitch = img_pixel_pitch.value
-    if pitch <= 40.0:
-        dx = 0.1
-        nx = 512
-    else:
-        dx = 0.2
-        nx = 512
+    import time
 
+    nx = int(nx_ctrl.value)
+    dx = dx_ctrl.value
+    pitch = img_pixel_pitch.value
+
+    t0 = time.perf_counter()
     model = PixelIrradianceModel(
         wavelength=wavelength.value,
         NA_image=NA.value,
@@ -64,6 +83,8 @@ def _(
         auto_compute=True,
         use_cache=False,
     )
+    elapsed = time.perf_counter() - t0
+
 
     # --- 2D irradiance plot ---
     fig2d, ax2d = plt.subplots(figsize=(6, 5))
@@ -100,6 +121,7 @@ def _(
     ax1d.set_ylim(-0.05, 1.05)
     half_pitch = model.img_pixel_pitch / 2.0
     ax1d.axvline(-half_pitch, color="r", linestyle="--")
+
     ax1d.axvline(+half_pitch, color="r", linestyle="--")
 
     # --- centerline PSF ---
@@ -110,10 +132,11 @@ def _(
     ax1d_psf.set_title("Center-line: PSF")
     ax1d_psf.set_ylim(-0.05, 1.05)
 
-    # --- layout ---
+    # --- layout: controls on top, plots below ---
     top_row = mo.vstack([
-        mo.md("### Parameters"),
-        controls
+        mo.md("### Parameters and grid"),
+        controls,
+        mo.md(f"**Computation time:** {elapsed*1000:.3f} ms")
     ])
 
     two_d_row = mo.hstack([fig2d, fig_psf])
@@ -128,8 +151,4 @@ def _(
     ])
 
     layout
-    return
-
-
-if __name__ == "__main__":
-    app.run()
+    return layout
