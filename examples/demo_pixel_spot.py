@@ -1,7 +1,11 @@
 from pir_optics import PixelIrradianceModel
 import matplotlib.pyplot as plt
+import time
+
 
 def main():
+    start_time = time.perf_counter()
+
     model = PixelIrradianceModel(
         wavelength=0.365,
         NA_image=0.10,
@@ -13,7 +17,9 @@ def main():
         auto_compute=True,
         use_cache=True,
     )
-
+    end_time = time.perf_counter()
+    print(f"Elapsed time: {(end_time - start_time)*1000:.2f} ms")
+    
     model.plot_irradiance_2d()
     model.plot_centerline()
 
