@@ -27,7 +27,9 @@ Next:
 - Change `_make_filename` to include all independent parameters so `.npz` filename is unique to a specific case.
 - Change `examples/demo_pixel_spot.py` so it calculates and prints the elapsed time to run `PixelIrradianceModel`.
     - Results: `nx=512, dx=0.1`: **4.24 ms, 2.11 ms, 2.30 ms**
+    - Results: `nx=800, dx=0.1`: **28.70 ms, 3.91 ms, 4.16 ms**
     - Results: `nx=1024, dx=0.1`: **54.98 ms, 9.53 ms, 6.03 ms**
+    - Results: `nx=1500, dx=0.1`: **98.89 ms, 10.71 ms, 11.22 ms**
 
 ## Fri, 11/22/25
 
