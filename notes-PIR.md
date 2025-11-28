@@ -1,22 +1,17 @@
+# Purpose
 
+Predict pixel impulse response for given DLP 3D printer optical system parameters. See `PIR_theory_summary.md` for overview, theory, and big-picture implementation details.
 
+# Next
 
-
-Next:
-
-- Document assumptions and calculations for ChatGPT result.
-- Save figures to files?
-- Save 2D result to a file.
+- Show PSF max value on boundary of 2D grid. This is to make sure that the grid is big enough for the tails to go to essentially zero.
 - Use 2D single pixel result to show what multiple pixels look like.
-- Do line plot of multiple pixels and superimpose appropriate shifted single pixels.
-- Show line plot of point spread function and pixel rect function and convolution of them (dashed rect on top of convolved result).
+    - Set up single pixel on a fine grid of points with large enough xy range that irradiance goes to essentially zero at boundaries of 2D grid.
+    - Set up a grid for 2D array of pixels.
+    - For each pixel that is turned on, interpolate irradiance on grid and pointwise sum contributions from all pixels.
+- Do line plot of multiple pixels and superimpose appropriate shifted single pixel line plots.
+- Save figures to files?
 - Show animation of convolution of PSF and rect function (in 2D?)?
-- Put in marimo notebook.
-    - Add fill factor slider.
-    - Add NA slider?
-    - Add wavelength selector (365, 385, 405 nm).
-
-
 
 # Log
 
