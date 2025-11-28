@@ -51,6 +51,10 @@ How to use this in future chats (NOTE: I need to explicitly ignore this notes fi
 >
 > You don’t *have* to maintain a separate “code summary” text file if managing the actual project ZIP is easier. The ZIP effectively *is* your code snapshot; a short textual “code structure” summary can help you, but it’s optional from my side as long as you can upload the project when needed.
 
+### Add `[x,y]` access to `PixelIrradianceModel` interpolator
+
+See `src/pir_model/pixel_irradiance.py:PixelIrradianceModel.__get_item__` and `examples/demo_interpolator.py`.
+
 ## Wed, 11/26/25
 
 ### `PixelIrradianceModel`

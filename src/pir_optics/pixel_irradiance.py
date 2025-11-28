@@ -208,17 +208,9 @@ class PixelIrradianceModel:
         print("could fall into the pupil, depending on your off-axis design.")
         print()
 
-    # def _make_filename(self):
-    #     def fmt(v):
-    #         return str(v).replace('.', 'p')
-    #     return (
-    #         "irr_"
-    #         f"lam{fmt(self.wavelength)}_"
-    #         f"NA{fmt(self.NA_image)}_"
-    #         f"mirpitch{fmt(self.mirror_pitch)}_"
-    #         f"imgpitch{fmt(self.img_pixel_pitch)}_"
-    #         f"fill{fmt(self.pixel_fill)}.npz"
-    #   )
+    def __getitem__(self, key):
+        x, y = key
+        return self.irradiance(x, y)
         
     def _make_filename(self):
         """
