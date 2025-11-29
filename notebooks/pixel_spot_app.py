@@ -170,12 +170,31 @@ def _(
         centerline_row,
     ])
 
-    layout
-    return
+    return layout
 
 
 @app.cell
-def _():
+def _(layout, mo):
+    # Second page: arbitrary static image placeholder
+    second_page_image = mo.image(
+        src="https://marimo.io/logo.png",  # change to your own image path/URL
+        alt="Placeholder image",
+        width=200,
+    )
+
+    second_page = mo.vstack([
+        mo.md("### Second page placeholder"),
+        second_page_image,
+    ])
+
+    tabs = mo.ui.tabs(
+        {
+            "Pixel irradiance": layout,   # first page = your existing UI
+            "Second page": second_page,   # second page = static image placeholder
+        }
+    )
+
+    tabs
     return
 
 

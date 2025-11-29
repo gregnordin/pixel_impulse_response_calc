@@ -24,6 +24,12 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 - Show normalized irradiance max value on boundary of 2D grid.
 - Show 2D grid physical size.
 
+### Start making a 2-tab app for arrays of pixels
+
+See [Marimo app structure](https://chatgpt.com/share/692b5ced-9fb4-800e-a290-eeb07df8d229). Start modifying `notebooks/pixel_spot_app.py` marimo notebook by adding a tab interface with the first tab being my original single-page app and a placeholder image for the 2nd page (i.e., 2nd tab).
+
+
+
 ## Thu, 11/27/25
 
 ### Reconstitute ChatGPT chat
