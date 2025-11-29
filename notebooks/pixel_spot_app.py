@@ -24,16 +24,19 @@ def _(mo):
     nx_ctrl = mo.ui.number(start=128, stop=4096, step=1, value=512)
     dx_ctrl = mo.ui.number(start=0.05, stop=1.0, step=0.01, value=0.10)
 
+    indent_size = 6
+
     controls = mo.vstack(
         [
-            mo.hstack([mo.md("**Wavelength (µm)**"), wavelength]),
-            mo.hstack([mo.md("**NA (image side)**"), NA]),
-            mo.hstack([mo.md("**Mirror pitch (µm)**"), mirror_pitch]),
-            mo.hstack([mo.md("**Image pixel pitch (µm)**"), img_pixel_pitch]),
-            mo.hstack([mo.md("**Pixel fill factor**"), pixel_fill]),
-            mo.md("**Grid settings**"),
-            mo.hstack([mo.md("nx (samples per axis)"), nx_ctrl]),
-            mo.hstack([mo.md("dx (µm per sample)**"), dx_ctrl]),
+            mo.md("### Parameters"),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}Wavelength (µm)"), wavelength]),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}NA (image side)"), NA]),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}Mirror pitch (µm)"), mirror_pitch]),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}Image pixel pitch (µm)"), img_pixel_pitch]),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}Pixel fill factor"), pixel_fill]),
+            mo.md("### Grid settings"),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}nx (samples per axis)"), nx_ctrl]),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}dx (µm per sample)"), dx_ctrl]),
         ]
     )
     return (
@@ -41,6 +44,7 @@ def _(mo):
         controls,
         dx_ctrl,
         img_pixel_pitch,
+        indent_size,
         mirror_pitch,
         nx_ctrl,
         pixel_fill,
@@ -55,6 +59,7 @@ def _(
     controls,
     dx_ctrl,
     img_pixel_pitch,
+    indent_size,
     mirror_pitch,
     mo,
     nx_ctrl,
@@ -132,9 +137,9 @@ def _(
 
     # --- layout: controls on top, plots below ---
     top_row = mo.vstack([
-        mo.md("### Parameters and grid"),
         controls,
-        mo.md(f"**Computation time:** {elapsed*1000:.3f} ms")
+        mo.md("### Diagnostics"),
+        mo.md(f"{indent_size * '&nbsp;'}Computation time: {elapsed*1000:.3f} ms")
     ])
 
     two_d_row = mo.hstack([fig2d, fig_psf])
