@@ -117,7 +117,7 @@ def _(
     # --- centerline irradiance ---
     fig1d, ax1d = plt.subplots(figsize=(6, 3))
     ax1d.plot(model.x, model.I[model.ny // 2, :], "k")
-    ax1d.plot(model.x, model.obj[model.ny // 2, :], "r", linestyle="--")
+    ax1d.plot(model.x, model.ideal_pixel[model.ny // 2, :], "r", linestyle="--")
     ax1d.set_xlabel("x (µm)")
     ax1d.set_ylabel("Normalized irradiance")
     ax1d.set_title("Center-line: irradiance")
@@ -139,7 +139,8 @@ def _(
     top_row = mo.vstack([
         controls,
         mo.md("### Diagnostics"),
-        mo.md(f"{indent_size * '&nbsp;'}Computation time: {elapsed*1000:.3f} ms")
+        mo.md(f"{indent_size * '&nbsp;'}Computation time: {elapsed*1000:.3f} ms"),
+        mo.md(f"{indent_size * '&nbsp;'}Max normalized edge irradiance: {model.max_edge_I:.3e}"),
     ])
 
     two_d_row = mo.hstack([fig2d, fig_psf])

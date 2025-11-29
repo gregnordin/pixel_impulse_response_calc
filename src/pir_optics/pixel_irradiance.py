@@ -41,8 +41,9 @@ class PixelIrradianceModel:
         self.Y = None
         self.R = None
         self.psf = None
-        self.obj = None
+        self.ideal_pixel = None
         self.I = None
+        self.max_edge_I = None
         self._interp = None  # RegularGridInterpolator, built lazily
 
         if auto_compute:
@@ -95,7 +96,7 @@ class PixelIrradianceModel:
             raise RuntimeError("Irradiance not computed yet.")
         fig, ax = plt.subplots(figsize=(7, 4))
         ax.plot(self.x, self.I[self.ny // 2, :], 'k')
-        ax.plot(self.x, self.obj[self.ny // 2, :], 'r', linestyle='--')
+        ax.plot(self.x, self.ideal_pixel[self.ny // 2, :], 'r', linestyle='--')
         ax.set_xlabel('x (µm)')
         ax.set_ylabel('Normalized irradiance')
         ax.set_title('Center-line cross-section')
@@ -151,17 +152,27 @@ class PixelIrradianceModel:
         self.psf = psf
 
     def _compute_pixel_object(self):
-        self.obj = (
+        self.ideal_pixel = (
             (np.abs(self.X) <= self.w_pix / 2.0) &
             (np.abs(self.Y) <= self.w_pix / 2.0)
         ).astype(float)
 
+    def _boundary_max(self,arr):
+        """Get maximum value on boundary using max of edge maxes."""
+        return max(
+            arr[0, :].max(),    # Top edge
+            arr[-1, :].max(),   # Bottom edge
+            arr[:, 0].max(),    # Left edge
+            arr[:, -1].max()    # Right edge
+        )
+    
     def _convolve(self):
-        obj0 = ifftshift(self.obj)
+        obj0 = ifftshift(self.ideal_pixel)
         psf0 = ifftshift(self.psf)
         I = fftshift(np.real(ifft2(fft2(obj0) * fft2(psf0))))
         I /= I.max()
         self.I = I
+        self.max_edge_I = self._boundary_max(I)
 
     def _analyze_pixel_sampling(self):
         lam = self.wavelength
@@ -272,7 +283,7 @@ class PixelIrradianceModel:
         self.X, self.Y = np.meshgrid(self.x, self.y, indexing='xy')
         self.R = np.hypot(self.X, self.Y)
         self.psf = None
-        self.obj = None
+        self.ideal_pixel = None
         self._interp = None
         print("Loaded file:", fname)
 
