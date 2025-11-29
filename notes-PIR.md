@@ -15,6 +15,15 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Log
 
+## Sat, 11/29/25
+
+### Refine marimo notebook UI
+
+- Clean up UI.
+- Show ideal pixel linescan with PIR linescan.
+- Show normalized irradiance max value on boundary of 2D grid.
+- Show 2D grid physical size.
+
 ## Thu, 11/27/25
 
 ### Reconstitute ChatGPT chat
