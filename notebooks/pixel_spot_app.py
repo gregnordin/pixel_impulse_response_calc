@@ -1,20 +1,19 @@
-import marimo as mo
+import marimo
 
-app = mo.App()
+__generated_with = "0.18.1"
+app = marimo.App()
 
 
-# --- Cell 0: imports and class ---
 @app.cell
-def __():
+def _():
     import marimo as mo
     import matplotlib.pyplot as plt
     from pir_optics import PixelIrradianceModel
-    return mo, plt, PixelIrradianceModel
+    return PixelIrradianceModel, mo, plt
 
 
-# --- Cell 1: UI controls ---
 @app.cell
-def __(mo):
+def _(mo):
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
@@ -37,33 +36,31 @@ def __(mo):
             mo.hstack([mo.md("dx (µm per sample)**"), dx_ctrl]),
         ]
     )
-
     return (
-        wavelength,
         NA,
-        mirror_pitch,
-        img_pixel_pitch,
-        pixel_fill,
-        nx_ctrl,
-        dx_ctrl,
         controls,
+        dx_ctrl,
+        img_pixel_pitch,
+        mirror_pitch,
+        nx_ctrl,
+        pixel_fill,
+        wavelength,
     )
 
 
-# --- Cell 2: model + plots + layout ---
 @app.cell
-def __(
-    mo,
-    plt,
-    PixelIrradianceModel,
-    wavelength,
+def _(
     NA,
-    mirror_pitch,
-    img_pixel_pitch,
-    pixel_fill,
-    nx_ctrl,
-    dx_ctrl,
+    PixelIrradianceModel,
     controls,
+    dx_ctrl,
+    img_pixel_pitch,
+    mirror_pitch,
+    mo,
+    nx_ctrl,
+    pixel_fill,
+    plt,
+    wavelength,
 ):
     import time
 
@@ -115,14 +112,15 @@ def __(
     # --- centerline irradiance ---
     fig1d, ax1d = plt.subplots(figsize=(6, 3))
     ax1d.plot(model.x, model.I[model.ny // 2, :], "k")
+    ax1d.plot(model.x, model.obj[model.ny // 2, :], "r", linestyle="--")
     ax1d.set_xlabel("x (µm)")
     ax1d.set_ylabel("Normalized irradiance")
     ax1d.set_title("Center-line: irradiance")
     ax1d.set_ylim(-0.05, 1.05)
-    half_pitch = model.img_pixel_pitch / 2.0
-    ax1d.axvline(-half_pitch, color="r", linestyle="--")
+    # half_pitch = model.img_pixel_pitch / 2.0
+    # ax1d.axvline(-half_pitch, color="r", linestyle="--")
 
-    ax1d.axvline(+half_pitch, color="r", linestyle="--")
+    # ax1d.axvline(+half_pitch, color="r", linestyle="--")
 
     # --- centerline PSF ---
     fig1d_psf, ax1d_psf = plt.subplots(figsize=(6, 3))
@@ -151,4 +149,13 @@ def __(
     ])
 
     layout
-    return layout
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+if __name__ == "__main__":
+    app.run()

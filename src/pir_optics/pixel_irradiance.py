@@ -95,12 +95,13 @@ class PixelIrradianceModel:
             raise RuntimeError("Irradiance not computed yet.")
         fig, ax = plt.subplots(figsize=(7, 4))
         ax.plot(self.x, self.I[self.ny // 2, :], 'k')
+        ax.plot(self.x, self.obj[self.ny // 2, :], 'r', linestyle='--')
         ax.set_xlabel('x (µm)')
         ax.set_ylabel('Normalized irradiance')
         ax.set_title('Center-line cross-section')
-        half_pitch = self.img_pixel_pitch / 2.0
-        ax.axvline(-half_pitch, color='r', linestyle='--')
-        ax.axvline(+half_pitch, color='r', linestyle='--')
+        # half_pitch = self.img_pixel_pitch / 2.0
+        # ax.axvline(-half_pitch, color='r', linestyle='--')
+        # ax.axvline(+half_pitch, color='r', linestyle='--')
         # plt.show()
 
     def build_interpolator(self, bounds_error=False, fill_value=0.0):
