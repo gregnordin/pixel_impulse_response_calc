@@ -4,7 +4,7 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Next
 
-- &#9989; Show grid size in microns in marimo app.
+- &#9989; Add x,y grid size in microns as attributes to PixelIrradianceModel.
 - Use 2D single pixel result to show what multiple pixels look like.
     - Set up single pixel on a fine grid of points with large enough xy range that irradiance goes to essentially zero at boundaries of 2D grid.
     - Set up a grid for 2D array of pixels.

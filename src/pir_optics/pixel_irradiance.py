@@ -29,6 +29,8 @@ class PixelIrradianceModel:
         self.ny = int(nx)   # square grid
         self.dx = float(dx)
         self.dy = float(dx)
+        self.grid_size_x = (self.nx - 1) * self.dx
+        self.grid_size_y = (self.ny - 1) * self.dy
 
         # derived quantities
         self.magnification = self.img_pixel_pitch / self.mirror_pitch
