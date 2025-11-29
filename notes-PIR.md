@@ -62,7 +62,7 @@ How to use this in future chats (NOTE: I need to explicitly ignore this notes fi
 
 ### Add `[x,y]` access to `PixelIrradianceModel` interpolator
 
-See `src/pir_model/pixel_irradiance.py:PixelIrradianceModel.__get_item__` and `examples/demo_interpolator.py`.
+See `src/pir_model/pixel_irradiance.py:PixelIrradianceModel.__get_item__` and `examples/demo_interpolator.py`. Investigate interpolated values outside of xy data range & find they go to zero as expected.
 
 ## Wed, 11/26/25
 

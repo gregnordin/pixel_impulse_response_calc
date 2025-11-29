@@ -1,3 +1,6 @@
+# To run:
+# uv run examples/demo_interpolator.py
+#
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,7 +27,8 @@ def main():
     print("I(0,0) =", v0)
 
     # 1D sampling along horizontal line y=0
-    x = np.linspace(-50, 50, 400)
+    half_extent = 100
+    x = np.linspace(-half_extent, half_extent, 400)
     y = np.zeros_like(x)
     v1 = model[x, y]
 
@@ -37,8 +41,8 @@ def main():
 
     # 2D sampling on a grid
     X, Y = np.meshgrid(
-        np.linspace(-50, 50, 200),
-        np.linspace(-50, 50, 200),
+        np.linspace(-half_extent, half_extent, 200),
+        np.linspace(-half_extent, half_extent, 200),
         indexing="xy"
     )
     V = model[X, Y]
@@ -48,7 +52,9 @@ def main():
         V,
         extent=[X.min(), X.max(), Y.min(), Y.max()],
         origin="lower",
-        cmap="inferno"
+        cmap="gray",
+        vmax=1.0,
+        vmin=0.0,
     )
     plt.colorbar(label="Irradiance")
     plt.xlabel("x (µm)")
