@@ -14,15 +14,40 @@ def _():
 
 @app.cell
 def _(mo):
+    # parameters
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
     img_pixel_pitch = mo.ui.number(start=5.0, stop=100.0, step=0.1, value=27.0)
     pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.80)
 
-    # new: grid controls
+    # grid controls
     nx_ctrl = mo.ui.number(start=128, stop=4096, step=1, value=512)
     dx_ctrl = mo.ui.number(start=0.05, stop=1.0, step=0.01, value=0.10)
+    return (
+        NA,
+        dx_ctrl,
+        img_pixel_pitch,
+        mirror_pitch,
+        nx_ctrl,
+        pixel_fill,
+        wavelength,
+    )
+
+
+@app.cell
+def _(
+    NA,
+    dx_ctrl,
+    img_pixel_pitch,
+    mirror_pitch,
+    mo,
+    nx_ctrl,
+    pixel_fill,
+    wavelength,
+):
+    grid_size = (nx_ctrl.value - 1) * dx_ctrl.value
+    grid_size_display = mo.md(f"{grid_size:.1f}")
 
     indent_size = 6
 
@@ -37,19 +62,10 @@ def _(mo):
             mo.md("### Grid settings"),
             mo.hstack([mo.md(f"{indent_size * '&nbsp;'}nx (samples per axis)"), nx_ctrl]),
             mo.hstack([mo.md(f"{indent_size * '&nbsp;'}dx (µm per sample)"), dx_ctrl]),
+            mo.hstack([mo.md(f"{indent_size * '&nbsp;'}grid size (µm)"), grid_size_display]),
         ]
     )
-    return (
-        NA,
-        controls,
-        dx_ctrl,
-        img_pixel_pitch,
-        indent_size,
-        mirror_pitch,
-        nx_ctrl,
-        pixel_fill,
-        wavelength,
-    )
+    return controls, indent_size
 
 
 @app.cell
