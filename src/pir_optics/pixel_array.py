@@ -68,17 +68,27 @@ class PixelArrayModel:
         
         Returns
         -------
-        x : 1D array of shape (N,) x-coordinates
-        y : 1D array of shape (M,) y-coordinates
-    """
-        x = (np.arange(self.n_pixels_x) - (self.n_pixels_x - 1) / 2) * self.pixel_separation_x
-        y = (np.arange(self.n_pixels_y) - (self.n_pixels_y - 1) / 2) * self.pixel_separation_y
-        return x, y
-    
+        x : 1D array of shape (N*M,) x-coordinates
+        y : 1D array of shape (N*M,) y-coordinates
+        """
+        x_axis = (np.arange(self.n_pixels_x) - (self.n_pixels_x - 1) / 2) * self.pixel_separation_x
+        y_axis = (np.arange(self.n_pixels_y) - (self.n_pixels_y - 1) / 2) * self.pixel_separation_y
+
+        Xc, Yc = np.meshgrid(x_axis, y_axis, indexing="xy")
+        return Xc.ravel(), Yc.ravel()
+        
     def _build_grid(self):
         self.x = (np.arange(self.nx) - self.nx // 2) * self.dx
         self.y = (np.arange(self.ny) - self.ny // 2) * self.dy
         self.X, self.Y = np.meshgrid(self.x, self.y, indexing='xy')
 
     def _fill_grid(self):
-        ...
+        # initialize irradiance sum grid
+        I = np.zeros_like(self.X, dtype=float)
+
+        # loop over all pixel centers in the array
+        for xc, yc in zip(self.pixel_centers_x, self.pixel_centers_y):
+            # evaluate the single-pixel irradiance, centered at current pixel
+            I += self.PIR[self.X - xc, self.Y - yc]
+
+        self.I = I

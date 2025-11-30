@@ -35,6 +35,8 @@ See [Marimo app structure](https://chatgpt.com/share/692b5ced-9fb4-800e-a290-eeb
 
 See `src/pir_optics/pixel_array.py:PixelArrayModel`.
 
+- Create example code to demonstrate arrays: `examples/demo_pixel_array.py`.
+
 ## Thu, 11/27/25
 
 ### Reconstitute ChatGPT chat
@@ -53,6 +55,7 @@ zip -r PIR.zip PIR \
   -x "*.pyc" \
   -x "try1.py" \
   -x "notes-PIR.md" \
+  -x "examples/demo_pixel_array_superposition.py" \
   -x "*.DS_Store"
 cd PIR
 ```
