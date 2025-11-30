@@ -4,17 +4,11 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Next
 
-- &#9989; Use 2D single pixel result to show what multiple pixels look like.
-    - Set up single pixel on a fine grid of points with large enough xy range that irradiance goes to essentially zero at boundaries of 2D grid.
-    - Set up a grid for 2D array of pixels.
-    - For each pixel that is turned on, interpolate irradiance on grid and pointwise sum contributions from all pixels.
-    - &#9989; The last 2 things can be encapsulated into a class similar to `PixelIrradianceModel`. It needs as inputs:
-        - Instance of `PixelIrradianceModel`.
-        - nx, dx for new 2D grid.
-        - N x M pixel array to show on the 2D grid.
-- &#9989; Do line plot of multiple pixels and superimpose appropriate shifted single pixel line plots.
-- Save figures to files?
-- Show animation of convolution of PSF and rect function (in 2D?)?
+- Save data to npz file with button so it can be analyzed and plotted later?
+- Save figures to image files with button?
+- Save settings to YAML configuration file?
+- App heading at top of page?
+- Documentation of theory (in 3rd tab?), or show theory summary message?
 
 # Log
 
@@ -49,8 +43,6 @@ uv run marimo edit notebooks/PIR_and_pixel_array.py
 # Run as app
 uv run marimo run notebooks/PIR_and_pixel_array.py
 ```
-
-
 
 Lessons:
 
