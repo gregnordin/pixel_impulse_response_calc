@@ -4,7 +4,6 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Next
 
-- &#9989; Add x,y grid size in microns as attributes to PixelIrradianceModel.
 - Use 2D single pixel result to show what multiple pixels look like.
     - Set up single pixel on a fine grid of points with large enough xy range that irradiance goes to essentially zero at boundaries of 2D grid.
     - Set up a grid for 2D array of pixels.
@@ -32,7 +31,9 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 See [Marimo app structure](https://chatgpt.com/share/692b5ced-9fb4-800e-a290-eeb07df8d229). Start modifying `notebooks/pixel_spot_app.py` marimo notebook by adding a tab interface with the first tab being my original single-page app and a placeholder image for the 2nd page (i.e., 2nd tab).
 
+### Create pixel array using PIR
 
+See `src/pir_optics/pixel_array.py:PixelArrayModel`.
 
 ## Thu, 11/27/25
 
