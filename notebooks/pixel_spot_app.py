@@ -7,9 +7,10 @@ app = marimo.App()
 @app.cell
 def _():
     import marimo as mo
+    import time
     import matplotlib.pyplot as plt
-    from pir_optics import PixelIrradianceModel
-    return PixelIrradianceModel, mo, plt
+    from pir_optics import PixelIrradianceModel, PixelArrayModel
+    return PixelArrayModel, PixelIrradianceModel, mo, plt, time
 
 
 @app.cell
@@ -81,10 +82,9 @@ def _(
     nx_ctrl,
     pixel_fill,
     plt,
+    time,
     wavelength,
 ):
-    import time
-
     nx = int(nx_ctrl.value)
     dx = dx_ctrl.value
     pitch = img_pixel_pitch.value
@@ -138,10 +138,6 @@ def _(
     ax1d.set_ylabel("Normalized irradiance")
     ax1d.set_title("Center-line: irradiance")
     ax1d.set_ylim(-0.05, 1.05)
-    # half_pitch = model.img_pixel_pitch / 2.0
-    # ax1d.axvline(-half_pitch, color="r", linestyle="--")
-
-    # ax1d.axvline(+half_pitch, color="r", linestyle="--")
 
     # --- centerline PSF ---
     fig1d_psf, ax1d_psf = plt.subplots(figsize=(6, 3))
@@ -162,51 +158,91 @@ def _(
     two_d_row = mo.hstack([fig2d, fig_psf])
     centerline_row = mo.hstack([fig1d, fig1d_psf])
 
-    layout = mo.vstack([
+    PIR_layout = mo.vstack([
         top_row,
         mo.md("### 2D plots"),
         two_d_row,
         mo.md("### Center-line plots"),
         centerline_row,
     ])
-    return (layout,)
+    return PIR_layout, model
+
 
 @app.cell
 def _(mo):
-    nx_pixel_array_grid = mo.ui.number(
+    # Pixel array size
+    N_pixels_x = mo.ui.number(
+        start=1,
+        stop=10,
+        step=1,
+        value=3,
+    )
+    M_pixels_y = mo.ui.number(
+        start=1,
+        stop=10,
+        step=1,
+        value=3,
+    )
+    # grid controls
+    nx_pixel_array_grid_ctrl = mo.ui.number(
         start=128,
         stop=4096,
         step=1,
         value=512,
     )
-    dx_pixel_array_grid = mo.ui.number(
+    dx_pixel_array_grid_ctrl = mo.ui.number(
         start=0.05,
         stop=1.0,
         step=0.01,
         value=0.10,
     )
-    return nx_pixel_array_grid, dx_pixel_array_grid
+    return (
+        M_pixels_y,
+        N_pixels_x,
+        dx_pixel_array_grid_ctrl,
+        nx_pixel_array_grid_ctrl,
+    )
+
 
 @app.cell
-def _(dx_pixel_array_grid, mo, nx_pixel_array_grid):
-    grid_size_pixel_array = (nx_pixel_array_grid.value - 1) * dx_pixel_array_grid.value
+def _(
+    M_pixels_y,
+    N_pixels_x,
+    dx_pixel_array_grid_ctrl,
+    mo,
+    nx_pixel_array_grid_ctrl,
+):
+    grid_size_pixel_array = (nx_pixel_array_grid_ctrl.value - 1) * dx_pixel_array_grid_ctrl.value
     grid_size_pixel_array_display = mo.md(f"{grid_size_pixel_array:.1f}")
 
     indent_size_pixel_array = 6
 
-    pixel_array_grid_controls = mo.vstack(
+    pixel_array_controls = mo.vstack(
         [
+            mo.md("### Pixel array size"),
+            mo.hstack(
+                [
+                    mo.md(f"{indent_size_pixel_array * '&nbsp;'}N pixels (x)"),
+                    N_pixels_x,
+                ]
+            ),
+            mo.hstack(
+                [
+                    mo.md(f"{indent_size_pixel_array * '&nbsp;'}M pixels (y)"),
+                    M_pixels_y,
+                ]
+            ),
             mo.md("### Pixel array grid settings"),
             mo.hstack(
                 [
                     mo.md(f"{indent_size_pixel_array * '&nbsp;'}nx (samples per axis)"),
-                    nx_pixel_array_grid,
+                    nx_pixel_array_grid_ctrl,
                 ]
             ),
             mo.hstack(
                 [
                     mo.md(f"{indent_size_pixel_array * '&nbsp;'}dx (µm per sample)"),
-                    dx_pixel_array_grid,
+                    dx_pixel_array_grid_ctrl,
                 ]
             ),
             mo.hstack(
@@ -217,30 +253,78 @@ def _(dx_pixel_array_grid, mo, nx_pixel_array_grid):
             ),
         ]
     )
+    return (pixel_array_controls,)
 
-    return grid_size_pixel_array, grid_size_pixel_array_display, pixel_array_grid_controls
 
 @app.cell
-def _(layout, mo, pixel_array_grid_controls):
-    # Second page: arbitrary static image placeholder (for now)
-    second_page_image = mo.image(
-        src="https://marimo.io/logo.png",  # change to your own image path/URL
-        alt="Placeholder image",
-        width=200,
-    )
+def _(
+    M_pixels_y,
+    N_pixels_x,
+    PixelArrayModel,
+    dx_pixel_array_grid_ctrl,
+    indent_size,
+    mo,
+    model,
+    nx_pixel_array_grid_ctrl,
+    pixel_array_controls,
+    plt,
+    time,
+):
+    N = int(N_pixels_x.value)
+    M = int(M_pixels_y.value)
+    nx_pixel_array_grid = int(nx_pixel_array_grid_ctrl.value)
 
-    second_page = mo.vstack(
+    t1 = time.perf_counter()
+    pa_model = PixelArrayModel(
+        PIR=model,
+        n_pixels_x=N,
+        n_pixels_y=M,
+        use_image_pixel_pitch=True,
+        nx=nx_pixel_array_grid,
+        dx=dx_pixel_array_grid_ctrl.value,
+    )
+    elapsed1 = time.perf_counter() - t1
+
+    # --- 2D irradiance plot ---
+    fig2d_px_array, ax2d_px_array = plt.subplots(figsize=(6, 5))
+    im_px_array = ax2d_px_array.imshow(
+        pa_model.I,
+        extent=[pa_model.x[0], pa_model.x[-1], pa_model.y[0], pa_model.y[-1]],
+        origin="lower",
+        cmap="gray",
+    )
+    ax2d_px_array.set_xlabel("x (µm)")
+    ax2d_px_array.set_ylabel("y (µm)")
+    ax2d_px_array.set_title("Single-pixel irradiance (normalized)")
+    fig2d_px_array.colorbar(im_px_array, ax=ax2d_px_array, label="Normalized I")
+
+    # --- centerline irradiance ---
+    fig1d_px_array, ax1d_px_array = plt.subplots(figsize=(6, 3))
+    ax1d_px_array.plot(pa_model.x, pa_model.I[pa_model.ny // 2, :], "k")
+    ax1d_px_array.plot(pa_model.x, pa_model.ideal_pixel_array[pa_model.ny // 2, :], "r", linestyle=":")
+    ax1d_px_array.set_xlabel("x (µm)")
+    ax1d_px_array.set_ylabel("Normalized irradiance")
+    ax1d_px_array.set_title("Center-line: irradiance")
+    ax1d_px_array.set_ylim(-0.05, None);
+
+    px_array_layout = mo.vstack(
         [
-            mo.md("### Predicted pixel array irradiance"),
-            pixel_array_grid_controls,
-            second_page_image,
+            # mo.md("### Predicted pixel array irradiance"),
+            pixel_array_controls,
+            mo.md("### Diagnostics"),
+            mo.md(f"{indent_size * '&nbsp;'}Computation time: {elapsed1*1000:.3f} ms"),
+            mo.vstack([fig2d_px_array, fig1d_px_array]),
         ]
     )
+    return (px_array_layout,)
 
+
+@app.cell
+def _(PIR_layout, mo, px_array_layout):
     tabs = mo.ui.tabs(
         {
-            "Pixel impulse response": layout,
-            "Predicted pixel array irradiance": second_page,
+            "Pixel impulse response": PIR_layout,
+            "Predicted pixel array irradiance": px_array_layout,
         }
     )
 

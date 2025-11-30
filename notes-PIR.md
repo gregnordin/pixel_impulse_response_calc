@@ -4,15 +4,15 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Next
 
-- Use 2D single pixel result to show what multiple pixels look like.
+- &#9989; Use 2D single pixel result to show what multiple pixels look like.
     - Set up single pixel on a fine grid of points with large enough xy range that irradiance goes to essentially zero at boundaries of 2D grid.
     - Set up a grid for 2D array of pixels.
     - For each pixel that is turned on, interpolate irradiance on grid and pointwise sum contributions from all pixels.
-    - The last 2 things can be encapsulated into a class similar to `PixelIrradianceModel`. It needs as inputs:
+    - &#9989; The last 2 things can be encapsulated into a class similar to `PixelIrradianceModel`. It needs as inputs:
         - Instance of `PixelIrradianceModel`.
         - nx, dx for new 2D grid.
         - N x M pixel array to show on the 2D grid.
-- Do line plot of multiple pixels and superimpose appropriate shifted single pixel line plots.
+- &#9989; Do line plot of multiple pixels and superimpose appropriate shifted single pixel line plots.
 - Save figures to files?
 - Show animation of convolution of PSF and rect function (in 2D?)?
 
@@ -38,6 +38,12 @@ See `src/pir_optics/pixel_array.py:PixelArrayModel`.
 - Create example code to demonstrate arrays: `examples/demo_pixel_array.py`.
 - Add `.plot_irradiance_2d()` and `.plot_centerline()` methods to `PixelArrayModel`.
 - Add dotted red line for ideal pixel array center line plot.
+
+### Finish making 2-tab app for arrays of pixels
+
+Use `PixelArrayModel` to finish 2nd tab. Explore different arrangements of grids and PIR parameters. Lessons:
+
+- **If PIR grid size is too small and the max value on its edges is too large, will get artifact of strange banding in pixel array image**
 
 ## Thu, 11/27/25
 
