@@ -41,7 +41,18 @@ See `src/pir_optics/pixel_array.py:PixelArrayModel`.
 
 ### Finish making 2-tab app for arrays of pixels
 
-Use `PixelArrayModel` to finish 2nd tab. Explore different arrangements of grids and PIR parameters. Lessons:
+Use `PixelArrayModel` to finish 2nd tab. Explore different arrangements of grids and PIR parameters. **Rename** to `notebooks/PIR_and_pixel_array.py`. 
+
+```bash
+# Run editable notebook
+uv run marimo edit notebooks/PIR_and_pixel_array.py
+# Run as app
+uv run marimo run notebooks/PIR_and_pixel_array.py
+```
+
+
+
+Lessons:
 
 - **If PIR grid size is too small and the max value on its edges is too large, will get artifact of strange banding in pixel array image**
 

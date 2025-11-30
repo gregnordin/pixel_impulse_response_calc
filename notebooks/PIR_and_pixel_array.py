@@ -194,7 +194,7 @@ def _(mo):
         start=0.05,
         stop=1.0,
         step=0.01,
-        value=0.10,
+        value=0.25,
     )
     return (
         M_pixels_y,
