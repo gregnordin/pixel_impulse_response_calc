@@ -8,7 +8,7 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 - Save figures to image files with button?
 - Save settings to YAML configuration file?
 - App heading at top of page?
-- Documentation of theory (in 3rd tab?), or show theory summary message?
+- &#9989; Documentation of theory (in 3rd tab?), or show theory summary message?
 
 # Log
 
@@ -47,6 +47,8 @@ uv run marimo run notebooks/PIR_and_pixel_array.py
 Lessons:
 
 - **If PIR grid size is too small and the max value on its edges is too large, will get artifact of strange banding in pixel array image**
+
+Add display of `PIR_theory_summary.md` in 3rd tab.
 
 ## Thu, 11/27/25
 

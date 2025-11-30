@@ -8,9 +8,10 @@ app = marimo.App()
 def _():
     import marimo as mo
     import time
+    from pathlib import Path
     import matplotlib.pyplot as plt
     from pir_optics import PixelIrradianceModel, PixelArrayModel
-    return PixelArrayModel, PixelIrradianceModel, mo, plt, time
+    return Path, PixelArrayModel, PixelIrradianceModel, mo, plt, time
 
 
 @app.cell
@@ -320,11 +321,29 @@ def _(
 
 
 @app.cell
-def _(PIR_layout, mo, px_array_layout):
+def _(Path, mo):
+    def load_markdown_file(filepath):
+        """Load markdown file and return as marimo markdown object."""
+        try:
+            content = Path(filepath).read_text()
+            return mo.md(content)
+        except FileNotFoundError:
+            return mo.md(f"**Error:** File `{filepath}` not found")
+        except Exception as e:
+            return mo.md(f"**Error loading file:** {str(e)}")
+
+    return (load_markdown_file,)
+
+
+@app.cell
+def _(PIR_layout, load_markdown_file, mo, px_array_layout):
+
+
     tabs = mo.ui.tabs(
         {
             "Pixel impulse response": PIR_layout,
             "Predicted pixel array irradiance": px_array_layout,
+            "Notes": load_markdown_file("PIR_theory_summary.md"),
         }
     )
 
