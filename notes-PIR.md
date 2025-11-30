@@ -36,6 +36,7 @@ See [Marimo app structure](https://chatgpt.com/share/692b5ced-9fb4-800e-a290-eeb
 See `src/pir_optics/pixel_array.py:PixelArrayModel`.
 
 - Create example code to demonstrate arrays: `examples/demo_pixel_array.py`.
+- Add `.plot_irradiance_2d()` and `.plot_centerline()` methods to `PixelArrayModel`.
 
 ## Thu, 11/27/25
 

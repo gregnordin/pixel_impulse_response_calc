@@ -22,7 +22,6 @@ def main():
     
     model.plot_irradiance_2d()
     model.plot_centerline()
-
     plt.show()
 
 if __name__ == "__main__":

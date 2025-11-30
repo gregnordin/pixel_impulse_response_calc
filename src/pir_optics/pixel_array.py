@@ -56,6 +56,39 @@ class PixelArrayModel:
 
         self._compute()
 
+    # ---------- public API ----------
+
+    def plot_irradiance_2d(self):
+        if self.I is None:
+            raise RuntimeError("Irradiance not computed yet.")
+        fig, ax = plt.subplots(figsize=(6, 5))
+        im = ax.imshow(
+            self.I,
+            extent=[self.x[0], self.x[-1], self.y[0], self.y[-1]],
+            origin='lower',
+            cmap='gray'
+        )
+        ax.set_xlabel('x (µm)')
+        ax.set_ylabel('y (µm)')
+        ax.set_title('Irradiance of Pixel Array')
+        cbar = fig.colorbar(im, ax=ax)
+        cbar.set_label('Irradiance (PIR normalized to 1.0)')
+        # plt.show()
+
+    def plot_centerline(self):
+        if self.I is None:
+            raise RuntimeError("Irradiance not computed yet.")
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.plot(self.x, self.I[self.ny // 2, :], 'k')
+        # ax.plot(self.x, self.ideal_pixel[self.ny // 2, :], 'r', linestyle='--')
+        ax.set_xlabel('x (µm)')
+        ax.set_ylabel('Normalized irradiance')
+        ax.set_title('Center-line cross-section')
+        # half_pitch = self.img_pixel_pitch / 2.0
+        # ax.axvline(-half_pitch, color='r', linestyle='--')
+        # ax.axvline(+half_pitch, color='r', linestyle='--')
+        # plt.show()
+
     # ---------- internal helpers ----------
     def _compute(self):
         self._build_grid()

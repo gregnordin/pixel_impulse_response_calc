@@ -34,16 +34,8 @@ def example_pixel_array():
     print(f"Pixel array calculation elapsed time: {(end_time - start_time)*1000:.2f} ms")
     
     # --- Display result ---
-    plt.figure(figsize=(6,5))
-    plt.imshow(pa.I, extent=[
-        pir.x.min(), pir.x.max(),
-        pir.y.min(), pir.y.max()
-    ], origin="lower", cmap="gray")
-    plt.colorbar(label="Irradiance (a.u.)")
-    plt.title("Irradiance of Pixel Array")
-    plt.xlabel("x (µm)")
-    plt.ylabel("y (µm)")
-    plt.tight_layout()
+    pa.plot_irradiance_2d()
+    pa.plot_centerline()
     plt.show()
 
 if __name__ == "__main__":
