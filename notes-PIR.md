@@ -9,6 +9,10 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
     - Set up single pixel on a fine grid of points with large enough xy range that irradiance goes to essentially zero at boundaries of 2D grid.
     - Set up a grid for 2D array of pixels.
     - For each pixel that is turned on, interpolate irradiance on grid and pointwise sum contributions from all pixels.
+    - The last 2 things can be encapsulated into a class similar to `PixelIrradianceModel`. It needs as inputs:
+        - Instance of `PixelIrradianceModel`.
+        - nx, dx for new 2D grid.
+        - N x M pixel array to show on the 2D grid.
 - Do line plot of multiple pixels and superimpose appropriate shifted single pixel line plots.
 - Save figures to files?
 - Show animation of convolution of PSF and rect function (in 2D?)?

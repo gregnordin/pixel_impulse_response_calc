@@ -169,32 +169,87 @@ def _(
         mo.md("### Center-line plots"),
         centerline_row,
     ])
-
-    return layout
-
+    return (layout,)
 
 @app.cell
-def _(layout, mo):
-    # Second page: arbitrary static image placeholder
+def _(mo):
+    nx_pixel_array_grid = mo.ui.number(
+        start=128,
+        stop=4096,
+        step=1,
+        value=512,
+    )
+    dx_pixel_array_grid = mo.ui.number(
+        start=0.05,
+        stop=1.0,
+        step=0.01,
+        value=0.10,
+    )
+    return nx_pixel_array_grid, dx_pixel_array_grid
+
+@app.cell
+def _(dx_pixel_array_grid, mo, nx_pixel_array_grid):
+    grid_size_pixel_array = (nx_pixel_array_grid.value - 1) * dx_pixel_array_grid.value
+    grid_size_pixel_array_display = mo.md(f"{grid_size_pixel_array:.1f}")
+
+    indent_size_pixel_array = 6
+
+    pixel_array_grid_controls = mo.vstack(
+        [
+            mo.md("### Pixel array grid settings"),
+            mo.hstack(
+                [
+                    mo.md(f"{indent_size_pixel_array * '&nbsp;'}nx (samples per axis)"),
+                    nx_pixel_array_grid,
+                ]
+            ),
+            mo.hstack(
+                [
+                    mo.md(f"{indent_size_pixel_array * '&nbsp;'}dx (µm per sample)"),
+                    dx_pixel_array_grid,
+                ]
+            ),
+            mo.hstack(
+                [
+                    mo.md(f"{indent_size_pixel_array * '&nbsp;'}grid size (µm)"),
+                    grid_size_pixel_array_display,
+                ]
+            ),
+        ]
+    )
+
+    return grid_size_pixel_array, grid_size_pixel_array_display, pixel_array_grid_controls
+
+@app.cell
+def _(layout, mo, pixel_array_grid_controls):
+    # Second page: arbitrary static image placeholder (for now)
     second_page_image = mo.image(
         src="https://marimo.io/logo.png",  # change to your own image path/URL
         alt="Placeholder image",
         width=200,
     )
 
-    second_page = mo.vstack([
-        mo.md("### Second page placeholder"),
-        second_page_image,
-    ])
+    second_page = mo.vstack(
+        [
+            mo.md("### Predicted pixel array irradiance"),
+            pixel_array_grid_controls,
+            second_page_image,
+        ]
+    )
 
     tabs = mo.ui.tabs(
         {
-            "Pixel irradiance": layout,   # first page = your existing UI
-            "Second page": second_page,   # second page = static image placeholder
+            "Pixel impulse response": layout,
+            "Predicted pixel array irradiance": second_page,
         }
     )
 
     tabs
+    return
+
+
+@app.cell
+def _():
     return
 
 
