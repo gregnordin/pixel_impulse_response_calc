@@ -37,6 +37,7 @@ See `src/pir_optics/pixel_array.py:PixelArrayModel`.
 
 - Create example code to demonstrate arrays: `examples/demo_pixel_array.py`.
 - Add `.plot_irradiance_2d()` and `.plot_centerline()` methods to `PixelArrayModel`.
+- Add dotted red line for ideal pixel array center line plot.
 
 ## Thu, 11/27/25
 

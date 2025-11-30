@@ -53,6 +53,7 @@ class PixelArrayModel:
         self.X = None
         self.Y = None
         self.I = None
+        self.ideal_pixel_array = None
 
         self._compute()
 
@@ -80,7 +81,7 @@ class PixelArrayModel:
             raise RuntimeError("Irradiance not computed yet.")
         fig, ax = plt.subplots(figsize=(7, 4))
         ax.plot(self.x, self.I[self.ny // 2, :], 'k')
-        # ax.plot(self.x, self.ideal_pixel[self.ny // 2, :], 'r', linestyle='--')
+        ax.plot(self.x, self.ideal_pixel_array[self.ny // 2, :], 'r', linestyle=':')
         ax.set_xlabel('x (µm)')
         ax.set_ylabel('Normalized irradiance')
         ax.set_title('Center-line cross-section')
@@ -118,10 +119,15 @@ class PixelArrayModel:
     def _fill_grid(self):
         # initialize irradiance sum grid
         I = np.zeros_like(self.X, dtype=float)
+        ideal_pixel_array = np.zeros_like(self.X, dtype=float)
 
         # loop over all pixel centers in the array
         for xc, yc in zip(self.pixel_centers_x, self.pixel_centers_y):
             # evaluate the single-pixel irradiance, centered at current pixel
             I += self.PIR[self.X - xc, self.Y - yc]
+            points = np.array([(self.X - xc).ravel(), (self.Y - yc).ravel()]).T
+            interpolated_values = self.PIR.interp_ideal(points)
+            ideal_pixel_array += interpolated_values.reshape(self.X.shape)
 
         self.I = I
+        self.ideal_pixel_array = ideal_pixel_array

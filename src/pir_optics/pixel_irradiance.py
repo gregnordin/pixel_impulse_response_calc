@@ -47,7 +47,8 @@ class PixelIrradianceModel:
         self.I = None
         self.max_edge_I = None
         self._interp = None  # RegularGridInterpolator, built lazily
-
+        self.interp_ideal = None  # RegularGridInterpolator, built lazily
+        
         if auto_compute:
             self.compute(use_cache=use_cache)
 
@@ -98,7 +99,7 @@ class PixelIrradianceModel:
             raise RuntimeError("Irradiance not computed yet.")
         fig, ax = plt.subplots(figsize=(7, 4))
         ax.plot(self.x, self.I[self.ny // 2, :], 'k')
-        ax.plot(self.x, self.ideal_pixel[self.ny // 2, :], 'r', linestyle='--')
+        ax.plot(self.x, self.ideal_pixel[self.ny // 2, :], 'r', linestyle=':')
         ax.set_xlabel('x (µm)')
         ax.set_ylabel('Normalized irradiance')
         ax.set_title('Center-line cross-section')
@@ -114,6 +115,14 @@ class PixelIrradianceModel:
         self._interp = RegularGridInterpolator(
             (self.y, self.x),  # note (y, x) ordering
             self.I,
+            bounds_error=bounds_error,
+            fill_value=fill_value
+        )
+        if self.ideal_pixel is None:
+            raise RuntimeError("Ideal pixel not computed yet.")
+        self.interp_ideal = RegularGridInterpolator(
+            (self.y, self.x),  # note (y, x) ordering
+            self.ideal_pixel,
             bounds_error=bounds_error,
             fill_value=fill_value
         )
