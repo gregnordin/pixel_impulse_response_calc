@@ -4,13 +4,23 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Next
 
-- Save data to npz file with button so it can be analyzed and plotted later?
+- Save data to npz file with button so it can be analyzed and plotted later? How reasonable is it to use an npz file to fully encapsulate a set of parameters and their result? Or is there a better way?
 - Save figures to image files with button?
 - Save settings to YAML configuration file?
 - App heading at top of page?
-- &#9989; Documentation of theory (in 3rd tab?), or show theory summary message?
+- Where in directory heirarchy to put markdown document to display in 3rd tab of app, and how access it?
+- Turn into app that can be run in browser (from Github Pages?)
+- Put on PyPI?
 
 # Log
+
+## Tue, 12/2/95
+
+### Refine PIR theory document
+
+- Edit `PIR_theory_summary.md` so that:
+    - All LaTex equations render correctly.
+    - Clearer Section 1 Purpose.
 
 ## Sat, 11/29/25
 

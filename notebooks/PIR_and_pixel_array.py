@@ -331,7 +331,6 @@ def _(Path, mo):
             return mo.md(f"**Error:** File `{filepath}` not found")
         except Exception as e:
             return mo.md(f"**Error loading file:** {str(e)}")
-
     return (load_markdown_file,)
 
 
@@ -341,9 +340,9 @@ def _(PIR_layout, load_markdown_file, mo, px_array_layout):
 
     tabs = mo.ui.tabs(
         {
-            "Pixel impulse response": PIR_layout,
-            "Predicted pixel array irradiance": px_array_layout,
-            "Notes": load_markdown_file("PIR_theory_summary.md"),
+            "PIR Theory": load_markdown_file("PIR_theory_summary.md"),
+            "Pixel Impulse Response": PIR_layout,
+            "Pixel Array Irradiance": px_array_layout,
         }
     )
 

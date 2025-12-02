@@ -9,7 +9,7 @@ The Pixel Irradiance Model (PIR) computes the **irradiance distribution in the i
 - Finite **pixel size and fill factor**
 - System geometry defined by DMD pixel pitch and image pixel pitch
 
-The result is a 2D irradiance map $I(x,y)$ in the **image plane** and associated 1D centerline profiles, together with some simple sampling/NA diagnostics.
+The result is a 2D irradiance map $I(x,y)$ in the image plane for a single pixel, which constitutes the optical system PIR. **The image plane irradiance for any arbitrary set of "on" pixels can be predicted by simply summing the PIR of each pixel centered on that pixel's position in the image plane.**
 
 ------
 
@@ -146,27 +146,11 @@ $$
 Numerically, this is implemented with FFT-based convolution:
 
 1. Shift `obj` and `psf` so that their centers align with the FFT convention using `ifftshift`.
-2. Compute FFTs:
-
-     $$
-     \mathcal{F}{\text{obj}} \cdot \mathcal{F}{\text{psf}}
-     $$
-     
-3. Inverse FFT:
-
-     $$
-     I = \mathcal{F}^{-1}\left(\mathcal{F}{\text{obj}}\cdot\mathcal{F}{\text{psf}}\right)
-     $$
-     
+2. Compute FFTs: &nbsp; $\mathcal{F}{\text{obj}} \cdot \mathcal{F}{\text{psf}}$
+3. Inverse FFT: &nbsp; $I = \mathcal{F}^{-1}\left(\mathcal{F}{\text{obj}}\cdot\mathcal{F}{\text{psf}}\right)$
 4. Shift back with `fftshift` so the origin (pixel center) is in the center of the array.
 5. Take the real part (imaginary components are numerical noise).
-6. Normalize:
-
-     $$
-     I \leftarrow I / \max(I)
-     $$
-     
-     so that the peak irradiance is 1.
+6. Normalize:  &nbsp; $I \leftarrow I / \max(I)$ &nbsp; so that the peak irradiance is 1.
 
 This gives a **dimensionless irradiance map** `self.I` which captures the shape of the single-pixel spot, not its absolute power scaling.
 
@@ -176,36 +160,13 @@ This gives a **dimensionless irradiance map** `self.I` which captures the shape 
 
 The model computes a few diagnostic quantities to help understand the regime:
 
-- Image-plane Rayleigh resolution:
-
-     $$
-     \Delta x_\text{img} = 0.61 \frac{\lambda}{\text{NA}_\text{image}}
-     $$
-     
-- Ratio of image pixel pitch to Rayleigh resolution:
-
-     $$
-     \text{ratio} = \frac{p_\text{img}}{\Delta x_\text{img}}
-     $$
-     
+- Image-plane Rayleigh resolution: &nbsp; $\Delta x_\text{img} = 0.61 \frac{\lambda}{\text{NA}_\text{image}}$
+- Ratio of image pixel pitch to Rayleigh resolution: &nbsp; $\text{ratio} = \frac{p_\text{img}}{\Delta x_\text{img}}$. 
      This indicates whether the **pixel is much larger than the diffraction blur** (ratio ≫ 1) or comparable to it (ratio ≈ 1).
-- Minimum NA needed to resolve the image pixel pitch:
-
-     $$
-     \text{NA}*\text{min} = 0.61 \frac{\lambda}{p*\text{img}}
-     $$
+- Minimum NA needed to resolve the image pixel pitch: &nbsp; $\text{NA}_{\text{min}} = 0.61 \frac{\lambda}{p_{\text{img}}}$
+- Object-side NA: &nbsp; $\text{NA}_\text{obj} = \frac{\text{NA}_\text{image}}{M}$
      
-- Object-side NA:
-
-     $$
-     \text{NA}*\text{obj} = \frac{\text{NA}*\text{image}}{M}
-     $$
-     
-     and corresponding object-side Rayleigh resolution:
-     
-     $$
-     \Delta x_\text{obj} = 0.61 \frac{\lambda}{\text{NA}_\text{obj}}
-     $$
+     and corresponding object-side Rayleigh resolution: &nbsp; $\Delta x_\text{obj} = 0.61 \frac{\lambda}{\text{NA}_\text{obj}}$
 
 These are printed as text for quick interpretation of the regime (e.g., “pixel much larger than diffraction spot”).
 
@@ -215,17 +176,8 @@ These are printed as text for quick interpretation of the regime (e.g., “pixel
 
 Treating the DMD as a 1D grating of period $d = p_\text{mir}$:
 
-- First-order diffraction angle:
-
-     $$
-     \theta_1 = \arcsin\left(\min(1, \lambda / d)\right)
-     $$
-     
-- Lens semi-angle defined by NA:
-
-     $$
-     \theta_\text{lens} = \arcsin(\min(1, \text{NA}_\text{image}))
-     $$
+- First-order diffraction angle: &nbsp; $\theta_1 = \arcsin\left(\min(1, \lambda / d)\right)$
+- Lens semi-angle defined by NA: &nbsp; $\theta_\text{lens} = \arcsin(\min(1, \text{NA}_\text{image}))$
 
 Comparing $\theta_1$ and $\theta_\text{lens}$ gives a rough sense of which DMD orders could fall into the pupil, depending on the off-axis design. This is **diagnostic only**; the current PIR model itself uses the **zero-order Airy PSF** and does not explicitly model off-axis order selection.
 
@@ -239,7 +191,7 @@ The model provides:
 - Convenience plotting:
     - `plot_irradiance_2d()` — 2D colormap of the spot.
     - `plot_centerline()` — 1D line profile along the central horizontal line.
-- An interpolator `irradiance(x,y)` built with `RegularGridInterpolator` for continuous evaluation in microns within the grid extent.
+- An interpolator `irradiance(x,y)` built with `RegularGridInterpolator` for continuous evaluation in microns within the grid extent. This is also available by indexing an instance of `PixelIrradianceModel` as `pir[x,y]`, which is effectively a shorthand for `pir.irradiance(x,y)`.
 
 ------
 
@@ -251,9 +203,3 @@ The model provides:
 - Single pixel modeled as a **perfectly uniform square** of width $w_\text{pix} = p_\text{img}\sqrt{f}$.
 - No temporal or spectral bandwidth (single wavelength).
 - No explicit modeling of off-axis DMD orders in the PSF; order effects only appear via the printed diagnostics.
-
-Future extensions could include:
-
-- ~~Polychromatic (multi-wavelength) integration.~~
-- ~~Off-axis PSFs for specific DMD order selection.~~
-- ~~Pixel arrays modeled directly as summed shifted single-pixel spots (superposition) and comparison to full convolution of array patterns.~~
