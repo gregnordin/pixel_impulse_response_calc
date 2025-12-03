@@ -8,11 +8,20 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 - Save figures to image files with button?
 - Save settings to YAML configuration file?
 - ~~App heading at top of page?~~
-- Where in directory heirarchy to put markdown document to display in 3rd tab of app, and how access it?
 - Turn into app that can be run in browser (from Github Pages?)
 - Put on PyPI?
 
 # Log
+
+## Wed, 12/3/95
+
+### License
+
+Add [BSD 3-Clause Clear License](https://choosealicense.com/licenses/bsd-3-clause-clear/).
+
+### README
+
+Add README.md.
 
 ## Tue, 12/2/95
 
