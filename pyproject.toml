@@ -2,7 +2,7 @@
 name = "pir-optics"
 version = "0.1.0"
 description = "Tools for DMD-based pixel irradiance and projection optics"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
   "numpy",
   "scipy",

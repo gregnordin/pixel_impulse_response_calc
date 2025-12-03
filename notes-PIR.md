@@ -27,6 +27,8 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 See [ChatGPT discussion](https://chatgpt.com/share/692b5ced-9fb4-800e-a290-eeb07df8d229). Should appear at `https://gregnordin.github.io/pixel_impulse_response_calc/`
 
+Spent hours trying to track down problems. See ChatGPT discussion referenced above. Looks like a marimo bug so no resolution for now.
+
 ## Sat, 11/29/25
 
 ### Refine marimo notebook UI
