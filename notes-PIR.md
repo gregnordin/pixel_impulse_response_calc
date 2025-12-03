@@ -23,6 +23,10 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
     - Clearer Section 1 Purpose.
 - Put file in `src/pir_optics/doc` and change read code accordingly so it will be compatible with runing with Pyodide/WASM too.
 
+### Set up as Marimo app with Github Pages
+
+See [ChatGPT discussion](https://chatgpt.com/share/692b5ced-9fb4-800e-a290-eeb07df8d229).
+
 ## Sat, 11/29/25
 
 ### Refine marimo notebook UI
