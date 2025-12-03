@@ -325,16 +325,11 @@ def _(mo):
     from importlib.resources import files
     import pir_optics
 
-    def load_markdown_file(filepath):
+    def load_markdown_file():
         """Load markdown file and return as marimo markdown object."""
-        try:
-            content = files(pir_optics).joinpath("docs/PIR_theory_summary.md").read_text()
-            # content = Path(filepath).read_text()
-            return mo.md(content)
-        except FileNotFoundError:
-            return mo.md(f"**Error:** File `{filepath}` not found")
-        except Exception as e:
-            return mo.md(f"**Error loading file:** {str(e)}")
+        content = files(pir_optics).joinpath("docs/PIR_theory_summary.md").read_text()
+        return mo.md(content)
+
     return (load_markdown_file,)
 
 
@@ -344,7 +339,7 @@ def _(PIR_layout, load_markdown_file, mo, px_array_layout):
 
     tabs = mo.ui.tabs(
         {
-            "PIR Theory": load_markdown_file("PIR_theory_summary.md"),
+            "PIR Theory": load_markdown_file(),
             "Pixel Impulse Response": PIR_layout,
             "Pixel Array Irradiance": px_array_layout,
         }
