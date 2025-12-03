@@ -9,7 +9,10 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 - Save settings to YAML configuration file?
 - ~~App heading at top of page?~~
 - Turn into app that can be run in browser (from Github Pages?)
-- Put on PyPI?
+- &#9989; Put package on PyPI.
+- &#9989; Add test of uv pip installation of package to README.md.
+- Add `if __name__ == "__main__"` block at bottom of `pir_optics.pixel_array` so I can directly run an example.
+- Add these kinds of tests of installation success to README.md.
 
 # Log
 
@@ -22,6 +25,38 @@ Add [BSD 3-Clause Clear License](https://choosealicense.com/licenses/bsd-3-claus
 ### README
 
 Add README.md.
+
+### Publish to PyPI
+
+Update `pyproject.toml`
+
+```bash
+# From project root directory:
+uv build
+uv publish --token pypi-YOUR-TOKEN
+# Clean build artifacts
+rm -rf dist/ build/ *.egg-info
+```
+
+#### Test successful installation of package
+
+In a temporary directory:
+
+```bash
+# Create test environment, activate, install package
+uv venv test-env
+  Using CPython 3.14.0
+  Creating virtual environment at: test-env
+source test-env/bin/activate
+uv pip install pir_optics
+
+# Test that package installation worked
+python -m pir_optics.pixel_irradiance
+python -c "import pir_optics.pixel_irradiance as pi; print([x for x in dir(pi) if not x.startswith('_')])"
+	['PixelIrradianceModel', 'RegularGridInterpolator', 'fft2', 'fftshift', 'ifft2', 'ifftshift', 'j1', 'np', 'os', 'plt']
+```
+
+
 
 ## Tue, 12/2/95
 
