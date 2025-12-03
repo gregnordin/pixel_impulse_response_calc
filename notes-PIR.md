@@ -56,7 +56,9 @@ python -c "import pir_optics.pixel_irradiance as pi; print([x for x in dir(pi) i
 	['PixelIrradianceModel', 'RegularGridInterpolator', 'fft2', 'fftshift', 'ifft2', 'ifftshift', 'j1', 'np', 'os', 'plt']
 ```
 
+### Run marimo notebook at molab.marimo.io
 
+[Run marimo notebook online](https://molab.marimo.io/notebooks/nb_qvexx3YHiiRo9dVniMLuou/app)
 
 ## Tue, 12/2/95
 

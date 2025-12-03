@@ -10,6 +10,10 @@ See [`src/pir_optics/docs/PIR_theory_summary.md`](src/pir_optics/docs/PIR_theory
 
 TBD.
 
+## Run marimo notebook hosted at molab.marimo.io
+
+[Run marimo notebook online](https://molab.marimo.io/notebooks/nb_qvexx3YHiiRo9dVniMLuou/app)
+
 ## Test package installation success
 
 Using uv in an arbitrary directory:
