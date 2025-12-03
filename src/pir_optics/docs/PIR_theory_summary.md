@@ -25,15 +25,8 @@ Image-side parameters (all lengths in microns):
 
 Derived quantities:
 
-- **Magnification**
-     $$
-     M = \frac{p_\text{img}}{p_\text{mir}}
-     $$
-- **Image-side pixel width** (effective illuminated square in image plane):
-     $$
-     w_\text{pix} = p_\text{img},\sqrt{f}
-     $$
-     This is the side length of a square region in the image plane representing one “on” pixel, assuming the same fill factor on object and image sides and a pixel-centered mapping.
+- **Magnification**: &nbsp; $M = \frac{p_\text{img}}{p_\text{mir}}$
+- **Image-side pixel width** (effective illuminated square in image plane): &nbsp; $w_\text{pix} = p_\text{img}\sqrt{f}$. This is the side length of a square region in the image plane representing one “on” pixel, assuming the same fill factor on object and image sides and a pixel-centered mapping.
 
 The model works entirely in **image-plane coordinates** $(x,y)$, measured in microns.
 

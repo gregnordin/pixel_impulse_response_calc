@@ -11,7 +11,7 @@ def _():
     from pathlib import Path
     import matplotlib.pyplot as plt
     from pir_optics import PixelIrradianceModel, PixelArrayModel
-    return Path, PixelArrayModel, PixelIrradianceModel, mo, plt, time
+    return PixelArrayModel, PixelIrradianceModel, mo, plt, time
 
 
 @app.cell
@@ -321,11 +321,15 @@ def _(
 
 
 @app.cell
-def _(Path, mo):
+def _(mo):
+    from importlib.resources import files
+    import pir_optics
+
     def load_markdown_file(filepath):
         """Load markdown file and return as marimo markdown object."""
         try:
-            content = Path(filepath).read_text()
+            content = files(pir_optics).joinpath("docs/PIR_theory_summary.md").read_text()
+            # content = Path(filepath).read_text()
             return mo.md(content)
         except FileNotFoundError:
             return mo.md(f"**Error:** File `{filepath}` not found")
