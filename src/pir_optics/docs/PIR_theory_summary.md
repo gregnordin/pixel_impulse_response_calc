@@ -1,8 +1,8 @@
-## Pixel Irradiance Model (PIR) — Theory Summary
+## Pixel Impulse Response — Theory Summary
 
 ### 1. Purpose
 
-The Pixel Irradiance Model (PIR) computes the **irradiance distribution in the image plane produced by a single “on” pixel** of a DMD-based projection system, taking into account:
+The Pixel Impulse Response (PIR) computes the **irradiance distribution in the image plane produced by a single “on” pixel** of a DMD-based projection system, taking into account:
 
 - Diffraction from a **circular, diffraction-limited pupil**
 - **Incoherent** imaging
@@ -87,7 +87,7 @@ In the implementation:
 
 - $z = \alpha R$
 - For $z \neq 0$: $\text{psf}(R) = \left(\frac{2J_1(z)}{z}\right)^2$
-     
+  
 - For $z = 0$: limit is **1**, so psf is explicitly set to 1 at the center to avoid (0/0).
 
 The PSF is normalized so total energy is 1:
@@ -145,7 +145,7 @@ Numerically, this is implemented with FFT-based convolution:
 5. Take the real part (imaginary components are numerical noise).
 6. Normalize:  &nbsp; $I \leftarrow I / \max(I)$ &nbsp; so that the peak irradiance is 1.
 
-This gives a **dimensionless irradiance map** `self.I` which captures the shape of the single-pixel spot, not its absolute power scaling.
+This gives a **dimensionless irradiance map** `self.I` which captures the shape of the single-pixel spot, not its absolute power scaling. We call this the system's **Pixel Impulse Response (PIR)**.
 
 ------
 
@@ -158,7 +158,7 @@ The model computes a few diagnostic quantities to help understand the regime:
      This indicates whether the **pixel is much larger than the diffraction blur** (ratio ≫ 1) or comparable to it (ratio ≈ 1).
 - Minimum NA needed to resolve the image pixel pitch: &nbsp; $\text{NA}_{\text{min}} = 0.61 \frac{\lambda}{p_{\text{img}}}$
 - Object-side NA: &nbsp; $\text{NA}_\text{obj} = \frac{\text{NA}_\text{image}}{M}$
-     
+  
      and corresponding object-side Rayleigh resolution: &nbsp; $\Delta x_\text{obj} = 0.61 \frac{\lambda}{\text{NA}_\text{obj}}$
 
 These are printed as text for quick interpretation of the regime (e.g., “pixel much larger than diffraction spot”).
@@ -182,7 +182,7 @@ The model provides:
 
 - 2D irradiance array `I(x,y)` on the regular grid.
 - Convenience plotting:
-    - `plot_irradiance_2d()` — 2D colormap of the spot.
+    - `plot_irradiance_2d()` — 2D grayscale map of the spot.
     - `plot_centerline()` — 1D line profile along the central horizontal line.
 - An interpolator `irradiance(x,y)` built with `RegularGridInterpolator` for continuous evaluation in microns within the grid extent. This is also available by indexing an instance of `PixelIrradianceModel` as `pir[x,y]`, which is effectively a shorthand for `pir.irradiance(x,y)`.
 

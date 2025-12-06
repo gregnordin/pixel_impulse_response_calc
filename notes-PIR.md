@@ -8,15 +8,35 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 - Save figures to image files with button?
 - Save settings to YAML configuration file?
 - ~~App heading at top of page?~~
-- Turn into app that can be run in browser (from Github Pages?)
+- &#9989; Turn into app that can be run in browser from molab.marimo.io
 - &#9989; Put package on PyPI.
 - &#9989; Add test of uv pip installation of package to README.md.
 - Add `if __name__ == "__main__"` block at bottom of `pir_optics.pixel_array` so I can directly run an example.
 - Add these kinds of tests of installation success to README.md.
+- Add ability to specify grayscale values (0 to 1 ~~or 0 to 255?~~) of pixels in array of pixels (fix at 5x5?).
+    - Convenience facilities to set all pixels to specified value.
+    - Be able to select multiple pixels simultaneously and set their value in one input?
+- Change location of horizontal linescan. 
+    - How specify? &mu;m? Number of dx grid points?
 
 # Log
 
-## Wed, 12/3/95
+## Fri, 12/5/25
+
+Fix typos and lightly edit `PIR_theory_summary.md`. Change limits and `dx` range and step for PIR and pixel array grids. Rebuild package and put on PyPI as version 0.1.1.
+
+```bash
+# Clean and rebuild
+rm -rf dist/ && uv build
+# Publish
+uv publish
+```
+
+
+
+Play with 7.6 &mu;m and 0.75 &mu;m pixel pitches. **Our Visitech DMD fill factor is 0.92.**
+
+## Wed, 12/3/25
 
 ### License
 

@@ -19,13 +19,13 @@ def _(mo):
     # parameters
     wavelength = mo.ui.number(start=0.2, stop=1.0, step=0.005, value=0.365)
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
-    mirror_pitch = mo.ui.number(start=2.0, stop=20.0, step=0.1, value=7.6)
-    img_pixel_pitch = mo.ui.number(start=5.0, stop=100.0, step=0.1, value=27.0)
+    mirror_pitch = mo.ui.number(start=0.5, stop=20.0, step=0.01, value=7.6)
+    img_pixel_pitch = mo.ui.number(start=0.5, stop=100.0, step=0.01, value=27.0)
     pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.80)
 
     # grid controls
     nx_ctrl = mo.ui.number(start=128, stop=4096, step=1, value=512)
-    dx_ctrl = mo.ui.number(start=0.05, stop=1.0, step=0.01, value=0.10)
+    dx_ctrl = mo.ui.number(start=0.01, stop=1.0, step=0.001, value=0.10)
     return (
         NA,
         dx_ctrl,
@@ -142,11 +142,17 @@ def _(
 
     # --- centerline PSF ---
     fig1d_psf, ax1d_psf = plt.subplots(figsize=(6, 3))
-    ax1d_psf.plot(model.x, model.psf[model.ny // 2, :], "k")
+    _psf_line_data = model.psf[model.ny // 2, :]
+    ax1d_psf.plot(model.x, _psf_line_data, "k")
     ax1d_psf.set_xlabel("x (µm)")
     ax1d_psf.set_ylabel("Normalized PSF")
     ax1d_psf.set_title("Center-line: PSF")
-    ax1d_psf.set_ylim(-0.05, 1.05)
+    if max(_psf_line_data) < 0.1:
+        ax1d_psf.set_ylim(None, None)
+    elif max(_psf_line_data) > 1.03:
+        ax1d_psf.set_ylim(-0.05, None)
+    else:
+        ax1d_psf.set_ylim(-0.05, 1.05)
 
     # --- layout: controls on top, plots below ---
     top_row = mo.vstack([
@@ -192,9 +198,9 @@ def _(mo):
         value=512,
     )
     dx_pixel_array_grid_ctrl = mo.ui.number(
-        start=0.05,
-        stop=1.0,
-        step=0.01,
+        start=0.01,
+        stop=5.0,
+        step=0.001,
         value=0.25,
     )
     return (
@@ -329,8 +335,15 @@ def _(mo):
         """Load markdown file and return as marimo markdown object."""
         content = files(pir_optics).joinpath("docs/PIR_theory_summary.md").read_text()
         return mo.md(content)
-
     return (load_markdown_file,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## DLP 3D Printing Image Formation
+    """)
+    return
 
 
 @app.cell
