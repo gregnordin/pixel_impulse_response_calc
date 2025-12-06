@@ -32,6 +32,12 @@ rm -rf dist/ && uv build
 uv publish
 ```
 
+```bash
+# Tag as v0.1.1
+git tag v0.1.1
+git push origin v0.1.1
+```
+
 
 
 Play with 7.6 &mu;m and 0.75 &mu;m pixel pitches. **Our Visitech DMD fill factor is 0.92.**
@@ -78,7 +84,7 @@ python -c "import pir_optics.pixel_irradiance as pi; print([x for x in dir(pi) i
 
 ### Run marimo notebook at molab.marimo.io
 
-[Run marimo notebook online](https://molab.marimo.io/notebooks/nb_qvexx3YHiiRo9dVniMLuou/app)
+[Run marimo notebook online](https://molab.marimo.io/notebooks/nb_YAT9C4wvbGVrp1UeFJNWKq/app).
 
 ## Tue, 12/2/95
 

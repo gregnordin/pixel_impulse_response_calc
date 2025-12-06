@@ -341,7 +341,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## DLP 3D Printing Image Formation
+    # DLP 3D Printing Image Formation
     """)
     return
 
