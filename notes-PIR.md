@@ -1,6 +1,6 @@
 # Purpose
 
-Predict pixel impulse response for given DLP 3D printer optical system parameters. See `PIR_theory_summary.md` for overview, theory, and big-picture implementation details.
+Predict pixel impulse response for given DLP 3D printer optical system parameters. See `src/pir_optics/docs/PIR_theory_summary.md` for overview, theory, and big-picture implementation details.
 
 # Next
 
@@ -21,9 +21,13 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # Log
 
+## Wed, 2/25/26
+
+Lightly edit `src/pir_optics/docs/PIR_theory_summary.md` to fix equation problems.
+
 ## Fri, 12/5/25
 
-Fix typos and lightly edit `PIR_theory_summary.md`. Change limits and `dx` range and step for PIR and pixel array grids. Rebuild package and put on PyPI as version 0.1.1.
+Fix typos and lightly edit `src/pir_optics/docs/PIR_theory_summary.md`. Change limits and `dx` range and step for PIR and pixel array grids. Rebuild package and put on PyPI as version 0.1.1.
 
 ```bash
 # Clean and rebuild

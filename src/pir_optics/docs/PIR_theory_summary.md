@@ -74,7 +74,7 @@ $$
 
 - $J_1$: Bessel function of the first kind (order 1)
 - $k_0 = \frac{2\pi}{\lambda}$
-- $\alpha = k_0,\text{NA}*\text{image} = \frac{2\pi}{\lambda},\text{NA}*\text{image}$
+- $\alpha = k_0\times\text{NA}_\text{image} = \frac{2\pi}{\lambda}\times\text{NA}_\text{image}$
 - $r = \sqrt{x^2 + y^2}$
 
 The **incoherent** PSF is the intensity:
@@ -93,7 +93,7 @@ In the implementation:
 The PSF is normalized so total energy is 1:
 
 $$
- \sum_{i,j}\text{psf}_{ij},dx,dy = 1
+\sum_{i,j}\text{psf}_{ij}\times dx\times dy = 1
 $$
 
 The result is stored as `self.psf`.
@@ -111,9 +111,9 @@ $$
 The pixel is modeled as a **uniform square** in the image plane:
 
 $$
- \text{obj}(x,y) =
+\text{obj}(x,y) =
  \begin{cases}
- 1, & |x| \le \frac{w_\text{pix}}{2},\quad |y| \le \frac{w_\text{pix}}{2}\
+ 1, & |x| \le \frac{w_\text{pix}}{2},\quad |y| \le \frac{w_\text{pix}}{2} \\
  0, & \text{otherwise}
  \end{cases}
 $$
@@ -151,7 +151,7 @@ This gives a **dimensionless irradiance map** `self.I` which captures the shape 
 
 ### 4. Sampling / NA Diagnostics
 
-The model computes a few diagnostic quantities to help understand the regime:
+The model computes a few diagnostic quantities to help understand the imaging regime:
 
 - Image-plane Rayleigh resolution: &nbsp; $\Delta x_\text{img} = 0.61 \frac{\lambda}{\text{NA}_\text{image}}$
 - Ratio of image pixel pitch to Rayleigh resolution: &nbsp; $\text{ratio} = \frac{p_\text{img}}{\Delta x_\text{img}}$. 
@@ -161,7 +161,7 @@ The model computes a few diagnostic quantities to help understand the regime:
   
      and corresponding object-side Rayleigh resolution: &nbsp; $\Delta x_\text{obj} = 0.61 \frac{\lambda}{\text{NA}_\text{obj}}$
 
-These are printed as text for quick interpretation of the regime (e.g., “pixel much larger than diffraction spot”).
+These are printed as text for quick interpretation of the imaging regime (e.g., “pixel much larger than diffraction spot”).
 
 ------
 
