@@ -21,7 +21,7 @@ def _(mo):
     NA = mo.ui.number(start=0.01, stop=0.5, step=0.01, value=0.10)
     mirror_pitch = mo.ui.number(start=0.5, stop=20.0, step=0.01, value=7.6)
     img_pixel_pitch = mo.ui.number(start=0.5, stop=100.0, step=0.01, value=27.0)
-    pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.80)
+    pixel_fill = mo.ui.number(start=0.1, stop=1.0, step=0.01, value=0.92)
 
     # grid controls
     nx_ctrl = mo.ui.number(start=128, stop=4096, step=1, value=512)
