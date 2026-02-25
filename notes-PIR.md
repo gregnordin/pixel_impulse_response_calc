@@ -4,7 +4,17 @@ Predict pixel impulse response for given DLP 3D printer optical system parameter
 
 # How to run
 
-From the main project directory: `uv run marimo edit notebooks/PIR_and_pixel_array.py`.
+From the main project directory:
+
+```bash
+# Run main notebook as an app
+uv run marimo run notebooks/PIR_and_pixel_array.py
+
+# Run main notebook as editable notebook
+uv run marimo edit notebooks/PIR_and_pixel_array.py
+```
+
+
 
 # Next
 
