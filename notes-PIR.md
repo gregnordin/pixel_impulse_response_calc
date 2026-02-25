@@ -2,6 +2,10 @@
 
 Predict pixel impulse response for given DLP 3D printer optical system parameters. See `src/pir_optics/docs/PIR_theory_summary.md` for overview, theory, and big-picture implementation details.
 
+# How to run
+
+From the main project directory: `uv run marimo edit notebooks/PIR_and_pixel_array.py`.
+
 # Next
 
 - Save data to npz file with button so it can be analyzed and plotted later? How reasonable is it to use an npz file to fully encapsulate a set of parameters and their result? Or is there a better way?

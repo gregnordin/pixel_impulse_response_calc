@@ -10,6 +10,8 @@ See [`src/pir_optics/docs/PIR_theory_summary.md`](src/pir_optics/docs/PIR_theory
 
 TBD.
 
+From the main project directory: `uv run marimo edit notebooks/PIR_and_pixel_array.py`
+
 ## Run marimo notebook hosted at molab.marimo.io
 
 [Run marimo notebook online](https://molab.marimo.io/notebooks/nb_qvexx3YHiiRo9dVniMLuou/app)
